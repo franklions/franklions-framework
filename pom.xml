@@ -2,15 +2,52 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.19.RELEASE</version>
+    </parent>
 
+    <modelVersion>4.0.0</modelVersion>
     <groupId>franklions.framework</groupId>
     <artifactId>franklions-framework</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1</version>
+
     <modules>
         <module>framework-core</module>
         <module>framework-example</module>
     </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-boot.version>1.5.20.SNAPSHOT</spring-boot.version>
+        <mybatis.version>1.1.1</mybatis.version>
+        <mysql.version>5.1.47</mysql.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>jdk-1.8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <maven.compiler.source>1.8</maven.compiler.source>
+                <maven.compiler.target>1.8</maven.compiler.target>
+                <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+            </properties>
+        </profile>
+    </profiles>
+
+    <!-- Package as an executable jar -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
