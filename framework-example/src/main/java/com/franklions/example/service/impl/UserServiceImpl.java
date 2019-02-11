@@ -20,8 +20,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends AbstractBaseService implements UserService {
 
-    @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public List<UserDTO> getAllUsers(){
@@ -29,5 +33,20 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
         List<UserDTO> listUserDTO =new ArrayList<>();
         listUser.forEach(u->{listUserDTO.add(new UserDTO(u));});
         return listUserDTO;
+    }
+
+    @Override
+    public List<UserDTO> getUserByName(String name) {
+        List<UserDO> listUser = userMapper.selectByName(name);
+        List<UserDTO> listUserDTO = new ArrayList<>();
+        listUser.forEach(u->{listUserDTO.add(new UserDTO(u));});
+        return listUserDTO;
+    }
+
+    @Override
+    public UserDTO getUserByAccount(String account) {
+        UserDO userDO = userMapper.selectByAccount(account);
+        UserDTO userDTO = new UserDTO(userDO);
+        return userDTO;
     }
 }

@@ -35,7 +35,7 @@ public class Swagger2Config {
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Spring Boot中使用Swagger2构建RESTful APIs")
-                .description("默认访问地址：http://localhsot:8080/swagger-ui.html")
+                .description("默认访问地址：http://localhost:8080/swagger-ui.html")
                 .termsOfServiceUrl("http://blog.didispace.com/")
                 .contact(new Contact("franklions","www.franklions.com","franklions@sina.com"))
                 .version("1.0")

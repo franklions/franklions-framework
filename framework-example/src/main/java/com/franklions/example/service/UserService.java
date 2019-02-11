@@ -1,6 +1,5 @@
 package com.franklions.example.service;
 
-import com.franklions.example.domain.UserDO;
 import com.franklions.example.domain.UserDTO;
 
 import java.util.List;
@@ -14,4 +13,8 @@ import java.util.List;
  */
 public interface UserService {
     List<UserDTO> getAllUsers();
+
+    List<UserDTO> getUserByName(String name);
+
+    UserDTO getUserByAccount(String account);
 }
