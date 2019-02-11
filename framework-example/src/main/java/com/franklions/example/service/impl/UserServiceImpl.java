@@ -18,7 +18,7 @@ import java.util.List;
  * @since Jdk 1.8
  */
 @Service
-public class UserServiceImpl extends AbstractBaseUserService implements UserService {
+public class UserServiceImpl extends AbstractBaseService implements UserService {
 
     @Autowired
     private UserMapper userMapper;

@@ -1,6 +1,5 @@
 package com.franklions.example.domain;
 
-import com.franklions.framework.entity.AbstractRootEntity;
 import lombok.*;
 import tk.mybatis.mapper.annotation.KeySql;
 
@@ -18,7 +17,7 @@ import java.util.Date;
 @ToString
 @Data
 @Table(name = "sys_user")
-public class UserDO  extends AbstractRootEntity{
+public class UserDO  {
     @Id
     @KeySql(useGeneratedKeys = true)
     private Integer id;
