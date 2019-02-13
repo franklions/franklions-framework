@@ -1,0 +1,77 @@
+package com.franklions.example.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.franklions.example.domain.UserDTO;
+import com.franklions.example.service.UserService;
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
+/**
+ * @author flsh
+ * @version 1.0
+ * @description
+ * @date 2019/2/13
+ * @since Jdk 1.8
+ */
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
+    @MockBean
+    DataSource dataSource;
+
+    @MockBean
+    UserService userService;
+
+    @Autowired
+    MockMvc mockMvc;
+
+    ObjectMapper objectMapper;
+    UserDTO user;
+
+    @Before
+    public void setUp() throws Exception {
+        objectMapper = new ObjectMapper();
+        user = new UserDTO();
+    }
+
+    @Test
+    public void getAllUser() throws Exception {
+    }
+
+    @Test
+    public void getUserByName() throws Exception {
+    }
+
+    @Test
+    public void getUserByAccount() throws Exception {
+        when(this.userService.getUserByAccount(anyString())).thenReturn(user);
+
+        MockHttpServletResponse response = this.mockMvc.perform(get("/users/search/tom")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andReturn().getResponse();
+
+        System.out.println("response:"+response.getContentAsString());
+        assertEquals(HttpStatus.OK.value(),response.getStatus());
+        verify(this.userService).getUserByAccount(anyString());
+    }
+
+}
