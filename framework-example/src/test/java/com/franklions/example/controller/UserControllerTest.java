@@ -64,7 +64,7 @@ public class UserControllerTest {
     public void getUserByAccount() throws Exception {
         when(this.userService.getUserByAccount(anyString())).thenReturn(user);
 
-        MockHttpServletResponse response = this.mockMvc.perform(get("/users/search/tom")
+        MockHttpServletResponse response = this.mockMvc.perform(get("/api/user/acc")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andReturn().getResponse();

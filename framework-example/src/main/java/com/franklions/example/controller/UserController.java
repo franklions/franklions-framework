@@ -44,4 +44,6 @@ public class UserController {
     public UserDTO getUserByAccount(@RequestParam(name = "account") String account){
         return userService.getUserByAccount(account);
     }
+
+
 }
