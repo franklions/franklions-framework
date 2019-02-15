@@ -37,7 +37,7 @@ public class UserMapperTest {
     @Test
     @Transactional
     @Rollback
-    public void selectByName() throws Exception {
+    public void testSelectByName() throws Exception {
         List<UserDO> listUser = userMapper.selectByName("张三");
         assertNotNull(listUser);
         assertEquals(listUser.size(),1);
@@ -46,10 +46,22 @@ public class UserMapperTest {
     @Test
     @Transactional
     @Rollback
-    public void selectByAccount() throws Exception {
+    public void testSelectByAccount() throws Exception {
         UserDO user = userMapper.selectByAccount("admin");
         assertNotNull(user);
         assertEquals(user.getAccount(),"admin");
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void testSelectUserDetialById(){
+        UserDO user = userMapper.selectUserDetialById(1);
+        assertNotNull(user);
+        if(user != null){
+            assertNotNull(user.getDeptDO());
+            assertNotNull(user.getRoleDO());
+        }
+        assertEquals( (long)user.getId(),1L);
+    }
 }

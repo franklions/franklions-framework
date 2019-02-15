@@ -23,4 +23,5 @@ public  class UserSqlBuilder {
             ORDER_BY("id");
         }}.toString();
     }
+
 }

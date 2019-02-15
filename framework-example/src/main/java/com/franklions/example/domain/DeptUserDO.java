@@ -1,0 +1,19 @@
+package com.franklions.example.domain;
+
+import lombok.Data;
+
+import javax.persistence.Table;
+import java.util.List;
+
+/**
+ * @author flsh
+ * @version 1.0
+ * @description
+ * @date 2019/2/15
+ * @since Jdk 1.8
+ */
+@Data
+@Table( name="sys_dept")
+public class DeptUserDO extends DeptDO {
+    List<UserDO> listUser;
+}

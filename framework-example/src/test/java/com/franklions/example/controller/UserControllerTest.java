@@ -53,15 +53,15 @@ public class UserControllerTest {
     }
 
     @Test
-    public void getAllUser() throws Exception {
+    public void testGetAllUser() throws Exception {
     }
 
     @Test
-    public void getUserByName() throws Exception {
+    public void testGetUserByName() throws Exception {
     }
 
     @Test
-    public void getUserByAccount() throws Exception {
+    public void testGetUserByAccount() throws Exception {
         when(this.userService.getUserByAccount(anyString())).thenReturn(user);
 
         MockHttpServletResponse response = this.mockMvc.perform(get("/api/user/acc")

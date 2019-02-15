@@ -35,4 +35,13 @@ public class UserDO  {
     private Integer status;
     private Date createtime;
 
+    /**
+     * 所属部门
+     */
+    private DeptDO deptDO;
+
+    /**
+     * 用户权限
+     */
+    private RoleDO roleDO;
 }
