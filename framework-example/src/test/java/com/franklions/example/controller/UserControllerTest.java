@@ -17,6 +17,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Optional;
+
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -62,7 +64,7 @@ public class UserControllerTest {
 
     @Test
     public void testGetUserByAccount() throws Exception {
-        when(this.userService.getUserByAccount(anyString())).thenReturn(user);
+        when(this.userService.getUserByAccount(anyString())).thenReturn(Optional.ofNullable(user));
 
         MockHttpServletResponse response = this.mockMvc.perform(get("/api/user/acc")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

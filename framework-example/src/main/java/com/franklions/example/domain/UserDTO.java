@@ -1,8 +1,11 @@
 package com.franklions.example.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 
@@ -13,6 +16,8 @@ import java.util.Date;
  * @date 2019/2/2
  * @since Jdk 1.8
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class UserDTO {
 
@@ -26,21 +31,12 @@ public class UserDTO {
     private Integer sex;
     private String email;
     private String phone;
-
-    public UserDTO() {
-    }
+    private String deptName;
 
     public UserDTO(UserDO userDO) {
         logger.debug(userDO.toString());
 
-        this.id = userDO.getId();
-        this.avatar = userDO.getAvatar();
-        this.account= userDO.getAccount();
-        this.name = userDO.getName();
-        this.birthday = userDO.getBirthday();
-        this.sex = userDO.getSex();
-        this.email = userDO.getEmail();
-        this.phone = userDO.getPhone();
+        BeanUtils.copyProperties(userDO,this);
     }
 
 }

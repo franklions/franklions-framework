@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author flsh
@@ -42,7 +43,12 @@ public class UserController {
     @ApiImplicitParam(name = "account",value = "用户帐号")
     @GetMapping(value = "/api/user/acc",params = "account")
     public UserDTO getUserByAccount(@RequestParam(name = "account") String account){
-        return userService.getUserByAccount(account);
+        //返回Optional避免NPE问题
+        Optional<UserDTO> dtoOpt = userService.getUserByAccount(account);
+        if(dtoOpt.isPresent()){
+            return dtoOpt.get();
+        }
+        return null;
     }
 
 

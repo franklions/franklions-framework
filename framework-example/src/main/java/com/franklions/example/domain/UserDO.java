@@ -14,7 +14,8 @@ import java.util.Date;
  * @date 2019/2/2
  * @since Jdk 1.8
  */
-@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "sys_user")
 public class UserDO  {

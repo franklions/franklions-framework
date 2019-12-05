@@ -2,6 +2,9 @@ package com.franklions.example.domain;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -11,6 +14,9 @@ import java.util.List;
  * @date 2019-04-10
  * @since Jdk 1.8
  */
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class CallbackDataRequest {
 
     private String msgId;
@@ -18,46 +24,6 @@ public class CallbackDataRequest {
     private String toAppId;
     private List<Object> content;
     private Long ts;
-
-    public String getMsgId() {
-        return msgId;
-    }
-
-    public void setMsgId(String msgId) {
-        this.msgId = msgId;
-    }
-
-    public Integer getMsgType() {
-        return msgType;
-    }
-
-    public void setMsgType(Integer msgType) {
-        this.msgType = msgType;
-    }
-
-    public String getToAppId() {
-        return toAppId;
-    }
-
-    public void setToAppId(String toAppId) {
-        this.toAppId = toAppId;
-    }
-
-    public List<Object> getContent() {
-        return content;
-    }
-
-    public void setContent(List<Object> content) {
-        this.content = content;
-    }
-
-    public Long getTs() {
-        return ts;
-    }
-
-    public void setTs(Long ts) {
-        this.ts = ts;
-    }
 
     @Override
     public String toString() {

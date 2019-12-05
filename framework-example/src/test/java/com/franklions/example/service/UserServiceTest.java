@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -67,7 +68,7 @@ public class UserServiceTest {
     @Test
     public void getUserByAccount() throws Exception {
         when(this.userMapper.selectByAccount(anyString())).thenReturn(user);
-        UserDTO userDTO = this.userService.getUserByAccount("admin");
+         Optional<UserDTO> userDTO = this.userService.getUserByAccount("admin");
         assertNotNull(userDTO);
         verify(this.userMapper,times(1)).selectByAccount(anyString());
     }

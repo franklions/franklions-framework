@@ -1,6 +1,8 @@
 package com.franklions.example.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,6 +13,8 @@ import javax.persistence.Table;
  * @date 2019-02-16
  * @since Jdk 1.8
  */
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "sys_menu")
 public class MenuDO {

@@ -1,6 +1,5 @@
 package com.franklions.example.config;
 
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,7 +9,6 @@ import org.springframework.context.annotation.Configuration;
  * @since Jdk 1.8
  */
 @Configuration
-@EnableEurekaClient
 public class AppConfig {
 
 }
