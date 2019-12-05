@@ -3,7 +3,6 @@ package com.franklions.example.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.franklions.example.domain.UserDTO;
 import com.franklions.example.service.UserService;
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,6 +16,7 @@ import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.sql.DataSource;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
