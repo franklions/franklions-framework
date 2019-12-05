@@ -59,4 +59,16 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
         UserDTO userDTO = userConverter.domain2dto(userDO);
         return Optional.ofNullable(userDTO);
     }
+
+    @Override
+    public Optional<UserDTO> getUserById(Integer id) {
+        UserDO userDO = userMapper.selectUserDetialById(id);
+        if(userDO == null){
+            return Optional.empty();
+        }
+
+        UserDTO userDTO = userConverter.domain2dto(userDO);
+
+       return Optional.ofNullable(userDTO);
+    }
 }

@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,5 +52,18 @@ public class UserController {
         return null;
     }
 
+
+    @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
+    @ApiImplicitParam(name = "account",value = "用户帐号")
+    @GetMapping(value = "/api/user/{id}")
+    public UserDTO getUserById(@PathVariable("id") Integer id){
+        Optional<UserDTO> dtoOpt = userService.getUserById(id);
+
+        if(dtoOpt.isPresent()){
+            return dtoOpt.get();
+        }
+
+        return null;
+    }
 
 }

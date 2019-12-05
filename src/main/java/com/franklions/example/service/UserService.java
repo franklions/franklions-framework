@@ -18,4 +18,6 @@ public interface UserService {
     List<UserDTO> getUserByName(String name);
 
     Optional<UserDTO> getUserByAccount(String account);
+
+    Optional<UserDTO> getUserById(Integer id);
 }
