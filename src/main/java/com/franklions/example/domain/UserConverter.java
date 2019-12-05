@@ -20,4 +20,6 @@ public interface UserConverter {
             @Mapping(target = "deptName",source = "deptDO.simplename")
     })
     UserDTO domain2dto(UserDO user);
+
+    UserDO dto2do(UserDTO user);
 }

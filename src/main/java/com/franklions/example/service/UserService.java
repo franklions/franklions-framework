@@ -20,4 +20,6 @@ public interface UserService {
     Optional<UserDTO> getUserByAccount(String account);
 
     Optional<UserDTO> getUserById(Integer id);
+
+    Optional<Integer> addUser(UserDTO user);
 }

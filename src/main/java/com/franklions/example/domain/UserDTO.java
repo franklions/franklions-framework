@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -25,7 +27,13 @@ public class UserDTO {
 
     private Integer id;
     private String avatar;
+
+    @NotBlank(message = "用户名不能为空") // 为""/''都不行
+    @Size(min = 2, max = 30, message = "2<长度<30")
     private String account;
+
+    @NotBlank(message = "用户名不能为空") // 为""/''都不行
+    @Size(min = 2, max = 30, message = "2<长度<30")
     private String name;
     private Date birthday;
     private Integer sex;

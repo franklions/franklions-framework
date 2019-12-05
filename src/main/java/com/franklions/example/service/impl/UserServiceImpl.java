@@ -71,4 +71,18 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 
        return Optional.ofNullable(userDTO);
     }
+
+    @Override
+    public Optional<Integer> addUser(UserDTO user) {
+//
+//        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+//        Set<ConstraintViolation<T>> constraintViolations = validator.validate(想要验证的bean);
+//        ConstraintViolation<T> constraintViolation = getFirst(constraintViolations, null);
+//        if (constraintViolation != null) {
+//            throw new ValidationException(constraintViolation.getMessage());
+//        }
+
+        userMapper.insert(userConverter.dto2do(user));
+        return Optional.empty();
+    }
 }

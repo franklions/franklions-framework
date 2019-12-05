@@ -2,15 +2,18 @@ package com.franklions.example.controller;
 
 import com.franklions.example.domain.UserDTO;
 import com.franklions.example.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,11 +24,28 @@ import java.util.Optional;
  * @date 2019/2/2
  * @since Jdk 1.8
  */
+@Api(tags="用户管理",description = "用户增册改查")
 @RestController
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @ApiOperation(value = "添加用户",notes = "添加用户")
+    @PostMapping("/api/user")
+    public String addUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            List<ObjectError> errorList = bindingResult.getAllErrors();
+            List<String> mesList=new ArrayList<String>();
+            for (int i = 0; i < errorList.size(); i++) {
+                mesList.add(errorList.get(i).getDefaultMessage());
+            }
+            return mesList.toString();
+        }
+
+        userService.addUser(user);
+        return "SUCCESS";
+    }
 
     @ApiOperation(value = "获取所有用户信息",notes = "获取所有用户信息")
     @GetMapping(value = "/api/alluser")
