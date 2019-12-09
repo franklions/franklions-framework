@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,16 +34,7 @@ public class UserController {
 
     @ApiOperation(value = "添加用户",notes = "添加用户")
     @PostMapping("/api/user")
-    public String addUser(@RequestBody @Valid UserDTO user, BindingResult bindingResult){
-        if (bindingResult.hasErrors()) {
-            List<ObjectError> errorList = bindingResult.getAllErrors();
-            List<String> mesList=new ArrayList<String>();
-            for (int i = 0; i < errorList.size(); i++) {
-                mesList.add(errorList.get(i).getDefaultMessage());
-            }
-            return mesList.toString();
-        }
-
+    public String addUser(@RequestBody @NotNull @Valid UserDTO user){
         userService.addUser(user);
         return "SUCCESS";
     }
@@ -56,7 +48,7 @@ public class UserController {
     @ApiOperation(value = "根据名称获取用户信息",notes = "根据名称获取用户信息")
     @ApiImplicitParam(name = "name",value = "用户名称")
     @GetMapping(value = "/api/user",params = "name")
-    public List<UserDTO> getUserByName(@RequestParam(name = "name") String name){
+    public List<UserDTO> getUserByName(@RequestParam(name = "name") @NotNull @Valid String name){
         return userService.getUserByName(name);
     }
 
@@ -76,7 +68,7 @@ public class UserController {
     @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
     @ApiImplicitParam(name = "account",value = "用户帐号")
     @GetMapping(value = "/api/user/{id}")
-    public UserDTO getUserById(@PathVariable("id") Integer id){
+    public UserDTO getUserById(@PathVariable("id") @NotNull @Valid Integer id){
         Optional<UserDTO> dtoOpt = userService.getUserById(id);
 
         if(dtoOpt.isPresent()){
