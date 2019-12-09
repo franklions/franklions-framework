@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
 
     /**
      * 400 - Bad Request
-     * BindingResult 统一处理方法
+     * @Valid 抛出的异常是 MethodArgumentNotValidException BindingResult 统一处理方法
      * @param e
      * @return
      */
@@ -120,6 +120,7 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * @Validated 验证抛出的异常是javax.validation.ConstraintViolationException
      * 400 - Bad Request
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)

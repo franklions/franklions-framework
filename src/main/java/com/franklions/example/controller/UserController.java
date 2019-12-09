@@ -13,7 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +27,7 @@ import java.util.Optional;
  * @date 2019/2/2
  * @since Jdk 1.8
  */
+@Validated
 @Api(tags="用户管理",description = "用户增册改查")
 @RestController
 public class UserController {
@@ -48,7 +51,7 @@ public class UserController {
     @ApiOperation(value = "根据名称获取用户信息",notes = "根据名称获取用户信息")
     @ApiImplicitParam(name = "name",value = "用户名称")
     @GetMapping(value = "/api/user",params = "name")
-    public List<UserDTO> getUserByName(@RequestParam(name = "name") @NotNull @Valid String name){
+    public List<UserDTO> getUserByName(@RequestParam(name = "name") @NotNull @Size(min = 2, max = 30, message = "2<长度<30") String name){
         return userService.getUserByName(name);
     }
 
@@ -68,7 +71,7 @@ public class UserController {
     @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
     @ApiImplicitParam(name = "account",value = "用户帐号")
     @GetMapping(value = "/api/user/{id}")
-    public UserDTO getUserById(@PathVariable("id") @NotNull @Valid Integer id){
+    public UserDTO getUserById(@PathVariable("id") @NotNull @Min(value=1,message = "id 不能小于1") Integer id){
         Optional<UserDTO> dtoOpt = userService.getUserById(id);
 
         if(dtoOpt.isPresent()){
