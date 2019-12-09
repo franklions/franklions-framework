@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public ErrorResult handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
-        logger.error("缺少请求参数", e);
+        logger.warn("缺少请求参数", e);
         return new ErrorResult(400,"required_parameter_is_not_present");
     }
 
@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(UnsatisfiedServletRequestParameterException.class)
     public ErrorResult handleUnsatisfiedServletRequestParameterException(UnsatisfiedServletRequestParameterException e){
-        logger.error("缺少请求参数", e);
+        logger.warn("缺少请求参数", e);
         return new ErrorResult(400,"required_parameter_is_not_present");
     }
 
@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ErrorResult handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-        logger.error("参数解析失败", e);
+        logger.warn("参数解析失败", e);
         return new ErrorResult(400,"could_not_read_json");
     }
 
@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ErrorResult handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e){
-        logger.error("参数类型异常",e);
+        logger.warn("参数类型异常",e);
         return new ErrorResult(400,"required_parameter_type_mismatch");
     }
 
@@ -85,7 +85,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResult handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        logger.error("参数验证失败", e);
+        logger.warn("参数验证失败", e);
         BindingResult result = e.getBindingResult();
         if(result.hasErrors()){
             if(result.getFieldErrors() != null && result.getFieldErrors().size() > 0){
@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ErrorResult handleBindException(BindException e) {
-        logger.error("参数绑定失败", e);
+        logger.warn("参数绑定失败", e);
         BindingResult result = e.getBindingResult();
         FieldError error = result.getFieldError();
         String field = error.getField();
@@ -126,7 +126,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public ErrorResult handleServiceException(ConstraintViolationException e) {
-        logger.error("参数验证失败", e);
+        logger.warn("参数验证失败", e);
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
         ConstraintViolation<?> violation = violations.iterator().next();
         String message = violation.getMessage();
@@ -139,7 +139,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ValidationException.class)
     public ErrorResult handleValidationException(ValidationException e) {
-        logger.error("参数验证失败", e);
+        logger.warn("参数验证失败", e);
         return new ErrorResult(400,"validation_exception");
     }
 
@@ -149,7 +149,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ErrorResult handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-        logger.error("不支持当前请求方法", e);
+        logger.warn("不支持当前请求方法", e);
         return new ErrorResult(405,"request_method_not_supported");
     }
 
@@ -159,7 +159,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public ErrorResult handleHttpMediaTypeNotSupportedException(Exception e) {
-        logger.error("不支持当前媒体类型", e);
+        logger.warn("不支持当前媒体类型", e);
         return new ErrorResult(415,"content_type_not_supported");
     }
 
