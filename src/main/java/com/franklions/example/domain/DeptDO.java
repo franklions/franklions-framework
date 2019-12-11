@@ -1,11 +1,13 @@
 package com.franklions.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author flsh
@@ -31,5 +33,10 @@ public class DeptDO {
     private String fullname;
     private String tips;
     private Integer version;
+
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "deptid")
+    @JsonIgnoreProperties({"deptDO"})
+    private Set<UserDO> users;
 
 }

@@ -3,8 +3,7 @@ package com.franklions.example.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
@@ -21,9 +20,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Slf4j
 public class UserDTO {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserDTO.class);
 
     private Integer id;
     private String avatar;
@@ -42,7 +40,7 @@ public class UserDTO {
     private String deptName;
 
     public UserDTO(UserDO userDO) {
-        logger.debug(userDO.toString());
+        log.debug(userDO.toString());
 
         BeanUtils.copyProperties(userDO,this);
     }
