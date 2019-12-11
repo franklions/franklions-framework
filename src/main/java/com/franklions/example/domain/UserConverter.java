@@ -16,9 +16,9 @@ import org.mapstruct.factory.Mappers;
 public interface UserConverter {
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
-    @Mappings({
-            @Mapping(target = "deptName",source = "deptDO.simplename")
-    })
+//    @Mappings({
+//            @Mapping(target = "deptName",source = "deptDO.simplename")
+//    })
     UserDTO domain2dto(UserDO user);
 
     UserDO dto2do(UserDTO user);

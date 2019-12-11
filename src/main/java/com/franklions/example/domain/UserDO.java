@@ -1,10 +1,8 @@
 package com.franklions.example.domain;
 
 import lombok.*;
-import tk.mybatis.mapper.annotation.KeySql;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -16,11 +14,13 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@Entity
 @Table(name = "sys_user")
 public class UserDO  {
     @Id
-    @KeySql(useGeneratedKeys = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String avatar;
     private String account;
@@ -31,18 +31,9 @@ public class UserDO  {
     private Integer sex;
     private String email;
     private String phone;
-    private String roleid;
+    private Integer roleid;
     private Integer deptid;
     private Integer status;
     private Date createtime;
 
-    /**
-     * 所属部门
-     */
-    private DeptDO deptDO;
-
-    /**
-     * 用户权限
-     */
-    private RoleDO roleDO;
 }

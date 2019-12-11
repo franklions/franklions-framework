@@ -1,12 +1,11 @@
 package com.franklions.example.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import tk.mybatis.mapper.annotation.KeySql;
+import lombok.Setter;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author flsh
@@ -17,11 +16,13 @@ import javax.persistence.Table;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
+@Entity
 @Table(name = "sys_dept")
 public class DeptDO {
     @Id
-    @KeySql(useGeneratedKeys = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer num;
     private Integer pid;
