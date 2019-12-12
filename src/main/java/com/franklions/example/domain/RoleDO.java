@@ -1,8 +1,10 @@
 package com.franklions.example.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 /**
  * @author flsh
@@ -24,7 +26,16 @@ public class RoleDO {
     private Integer num;
     private Integer pid;
     private String name;
-    private Integer deptid;
     private String tips;
     private Integer version;
+
+    @ManyToMany(targetEntity = MenuDO.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @JoinTable(name = "sys_relation", joinColumns = {@JoinColumn(name = "roleid", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "menuid", referencedColumnName = "id")})
+    private Set<MenuDO> menus;
+
+    @ManyToOne(targetEntity = DeptDO.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "deptid")
+    @JsonIgnoreProperties({"users"})
+    private DeptDO deptDO;
 }

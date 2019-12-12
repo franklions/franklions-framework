@@ -8,20 +8,18 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @author flsh
  * @version 1.0
- * @date 2019-12-11
+ * @date 2019-12-12
  * @since Jdk 1.8
  */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Slf4j
-public class DeptDTO {
+public class RoleDTO {
     private Integer id;
     private Integer num;
     private Integer pid;
-    private String pids;
-    private String simplename;
-    private String fullname;
+    private String name;
     private String tips;
     private Integer version;
 
