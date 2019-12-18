@@ -3,7 +3,9 @@ package com.franklions.example.exception;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -141,6 +143,17 @@ public class GlobalExceptionHandler {
     public ErrorResult handleValidationException(ValidationException e) {
         logger.warn("参数验证失败", e);
         return new ErrorResult(400,"validation_exception");
+    }
+
+    /**
+     * 400 - Bad Request
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({DuplicateKeyException.class})
+    public ErrorResult handlerDuplicateKeyException(DuplicateKeyException e){
+        logger.warn("资源主键重复:"+e.getMessage(),e);
+        return new ErrorResult(400,"duplicate_resource");
     }
 
     /**

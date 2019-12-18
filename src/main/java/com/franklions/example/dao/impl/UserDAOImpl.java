@@ -10,10 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.*;
 
 /**
  * @author flsh
@@ -23,6 +22,10 @@ import java.util.Optional;
  */
 @Repository("userDAO")
 public class UserDAOImpl extends BaseDAO implements IUserDAO {
+
+    @Autowired
+    EntityManager em;
+
     @Autowired
     UserRepository userRepo;
 
@@ -115,5 +118,80 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
         map.put("COUNT_SQL", countSql.toString());
 
         return map;
+    }
+
+    public List<UserDO> findListBySQL(String svcWorkOrderCode,
+                              String deviceName,
+                              String currentStatus,
+                              String involveStation,
+                              String acceptOpTeam,
+                              String transRepair,
+                              Date createBeginDate,
+                              Date createEndDate){
+
+        StringBuffer sql = new StringBuffer();
+        Map<String, Object> params = new HashMap<>();
+
+
+        sql.append(" select \n");
+        sql.append(" oc.work_order_type,\n");
+        sql.append(" count(1) as order_count \n");
+        sql.append(" from \n");
+        sql.append(" t_work_order oc\n");
+        sql.append(" where oc.current_status = '待处理'\n");
+
+
+        if (StringUtils.isNotBlank(svcWorkOrderCode)) {
+            sql.append("    and oc.svc_work_order_code like :svcWorkOrderCode\n");
+            params.put("svcWorkOrderCode", svcWorkOrderCode);
+        }
+
+        if (StringUtils.isNotBlank(deviceName)) {
+            sql.append("    and oc.device_name like :deviceName \n");
+            params.put("deviceName", deviceName);
+        }
+
+        if (StringUtils.isNotBlank(currentStatus)) {
+            sql.append("    and oc.current_status like :currentStatus\n");
+            params.put("currentStatus", currentStatus);
+        }
+
+        if (StringUtils.isNotBlank(involveStation)) {
+            sql.append("    and oc.involve_station like :involveStation\n");
+            params.put("involveStation", involveStation);
+        }
+
+        if (StringUtils.isNotBlank(acceptOpTeam)) {
+            sql.append("     and oc.accept_op_team like :acceptOpTeam\n");
+            params.put("acceptOpTeam", acceptOpTeam);
+        }
+
+        if (StringUtils.isNotBlank(transRepair)) {
+            sql.append("     and oc.trans_repair like :transRepair\n");
+            params.put("transRepair", transRepair);
+        }
+
+        if (null != createBeginDate) {
+            sql.append("  and oc.create_date > :createBeginDate\n");
+            params.put("createBeginDate", createBeginDate);
+        }
+
+        if (null != createEndDate) {
+            sql.append("  and oc.create_date < :createEndDate\n");
+            params.put("createEndDate", createEndDate);
+        }
+
+        sql.append(" group by oc.work_order_type\n");
+
+        Query listQuery = em.createNativeQuery(sql.toString());
+
+        if (!params.isEmpty()) {
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                listQuery.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        List<UserDO> listResult = listQuery.getResultList();
+        return listResult;
     }
 }
