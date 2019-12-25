@@ -1,15 +1,20 @@
 package com.franklions.example.service.impl;
 
 import com.franklions.example.dao.IUserDAO;
+import com.franklions.example.domain.DeptDO;
 import com.franklions.example.domain.UserConverter;
 import com.franklions.example.domain.UserDO;
 import com.franklions.example.domain.UserDTO;
+import com.franklions.example.repository.DeptRepository;
 import com.franklions.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -24,11 +29,13 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 
     private IUserDAO userDAO;
     private UserConverter userConverter;
+    private DeptRepository deptRepo ;
 
     @Autowired
-    public UserServiceImpl(IUserDAO userDAO,UserConverter userConverter) {
+    public UserServiceImpl(IUserDAO userDAO,UserConverter userConverter,DeptRepository deptRepo) {
         this.userDAO = userDAO;
         this.userConverter = userConverter;
+        this.deptRepo = deptRepo;
     }
 
     @Override
@@ -71,6 +78,7 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
        return Optional.ofNullable(userDTO);
     }
 
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public Optional<Integer> addUser(UserDTO user) {
 //
@@ -81,7 +89,17 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 //            throw new ValidationException(constraintViolation.getMessage());
 //        }
 
-        userDAO.insert(userConverter.dto2do(user));
-        return Optional.empty();
+        UserDO newUser = userConverter.dto2do(user);
+        newUser.setCreatetime(new Date());
+        newUser.setPassword(UUID.randomUUID().toString());
+        newUser.setDeleted(false);
+        UserDO userDO = userDAO.insert(newUser);
+
+        Optional<DeptDO> deptOpt = deptRepo.findById(user.getDeptid());
+        if(deptOpt.isPresent()){
+            DeptDO deptDO = deptOpt.get();
+            deptDO.getUsers().add(userDO);
+        }
+        return Optional.ofNullable(userDO.getId());
     }
 }

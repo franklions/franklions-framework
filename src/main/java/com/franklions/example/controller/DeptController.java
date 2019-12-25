@@ -1,13 +1,13 @@
 package com.franklions.example.controller;
 
 import com.franklions.example.domain.DeptDO;
+import com.franklions.example.domain.DeptDTO;
 import com.franklions.example.service.IDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -29,5 +29,11 @@ public class DeptController {
         Optional<DeptDO> deptOpt = deptService.getDeptInfoById(id);
 
         return deptOpt.get();
+    }
+
+    @PostMapping("/api/dept")
+    public String addDeptInfo(@NotNull @Valid @RequestBody DeptDTO request){
+        deptService.addDept(request);
+        return "SUCCESS";
     }
 }

@@ -20,5 +20,5 @@ public interface IUserDAO {
 
     Optional<UserDO> selectUserDetialById(Integer id);
 
-    void insert(UserDO userDO);
+    UserDO insert(UserDO userDO);
 }

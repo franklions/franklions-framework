@@ -38,6 +38,7 @@ public class UserDTO {
     private String email;
     private String phone;
     private String deptName;
+    private Integer deptid;
 
     public UserDTO(UserDO userDO) {
         log.debug(userDO.toString());

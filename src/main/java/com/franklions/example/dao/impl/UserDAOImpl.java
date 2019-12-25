@@ -50,8 +50,8 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
     }
 
     @Override
-    public void insert(UserDO userDO) {
-        userRepo.saveAndFlush(userDO);
+    public UserDO insert(UserDO userDO) {
+       return userRepo.saveAndFlush(userDO);
     }
 
 //    /**
@@ -183,7 +183,8 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
 
         sql.append(" group by oc.work_order_type\n");
 
-        Query listQuery = em.createNativeQuery(sql.toString());
+        //TODO 注意这里的 UserDO.class 很重要，必须要写，不然导致获取属性错误问题
+        Query listQuery = em.createNativeQuery(sql.toString(),UserDO.class);
 
         if (!params.isEmpty()) {
             for (Map.Entry<String, Object> entry : params.entrySet()) {

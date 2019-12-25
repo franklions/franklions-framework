@@ -1,6 +1,7 @@
 package com.franklions.example.service;
 
 import com.franklions.example.domain.DeptDO;
+import com.franklions.example.domain.DeptDTO;
 
 import java.util.Optional;
 
@@ -12,4 +13,6 @@ import java.util.Optional;
  */
 public interface IDeptService {
     Optional<DeptDO> getDeptInfoById(Integer id);
+
+    DeptDO addDept(DeptDTO dto);
 }
