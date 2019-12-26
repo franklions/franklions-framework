@@ -15,4 +15,6 @@ public interface IDeptService {
     Optional<DeptDO> getDeptInfoById(Integer id);
 
     DeptDO addDept(DeptDTO dto);
+
+    void removeDept(Integer id);
 }

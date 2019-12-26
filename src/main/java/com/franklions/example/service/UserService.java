@@ -22,4 +22,8 @@ public interface UserService {
     Optional<UserDTO> getUserById(Integer id);
 
     Optional<Integer> addUser(UserDTO user);
+
+    void removeUser(Integer id);
+
+    void editUser(UserDTO request);
 }

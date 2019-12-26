@@ -21,4 +21,8 @@ public interface IUserDAO {
     Optional<UserDO> selectUserDetialById(Integer id);
 
     UserDO insert(UserDO userDO);
+
+    void deleteById(Integer id);
+
+    void editUser(UserDO userDO);
 }

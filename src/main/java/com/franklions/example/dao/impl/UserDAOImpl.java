@@ -54,6 +54,16 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
        return userRepo.saveAndFlush(userDO);
     }
 
+    @Override
+    public void deleteById(Integer id) {
+        userRepo.deleteById(id);
+    }
+
+    @Override
+    public void editUser(UserDO userDO) {
+        userRepo.save(userDO);
+    }
+
 //    /**
 //     * 构造动态查询语句
 //     * @param id

@@ -95,4 +95,31 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
         UserDO userDO = userDAO.insert(newUser);
         return Optional.ofNullable(userDO.getId());
     }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void removeUser(Integer id) {
+        userDAO.deleteById(id);
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void editUser(UserDTO dto) {
+        UserDO userDO = userConverter.dto2do(dto);
+        //这里不能直接保存userDO,直接保存userDO,
+        // JPA会自动创建一个值为NULL的部门对象，然后再更新用户表
+        // 应该先将外键对象设置为NULL再保存
+        if(dto.getDeptid() == null){
+            userDO.setDeptDO(null);
+        }else {
+        //级联更新部门信息
+        Optional<DeptDO> deptDO = deptRepo.findById(dto.getDeptid());
+        if(deptDO.isPresent()){
+
+            userDO.setDeptDO(deptDO.get());
+        }
+    }
+
+        userDAO.editUser(userDO);
+    }
 }

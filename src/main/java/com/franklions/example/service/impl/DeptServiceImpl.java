@@ -7,12 +7,12 @@ import com.franklions.example.domain.UserDO;
 import com.franklions.example.repository.DeptRepository;
 import com.franklions.example.repository.UserRepository;
 import com.franklions.example.service.IDeptService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -44,5 +44,33 @@ public class DeptServiceImpl implements IDeptService {
     public DeptDO addDept(DeptDTO dto) {
         DeptDO deptDO = deptConverter.dto2entity(dto);
         return deptRepo.save(deptDO);
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void removeDept(Integer id) {
+        //删除部门的同时也会删除与部门相关联的用户，
+        Optional<DeptDO> deptOpt = deptRepo.findById(id);
+        if(deptOpt.isPresent()) {
+
+            if(deptOpt.map(d->d.getUsers()).isPresent()){
+                //1解除用户与部门的外键
+                Set<UserDO> users = new HashSet();
+                for (UserDO user : deptOpt.get().getUsers()) {
+                    user.setDeptDO(null);
+                    users.add(user);
+                }
+                if(users.size() >0) {
+                    userRepo.saveAll(users);
+                    userRepo.flush();
+                }
+            }
+            //2解除session中与user的关系
+            DeptDO deptDO = deptOpt.get();
+            deptDO.setUsers(null);
+            deptRepo.save(deptDO);
+            //3再删除部门
+            deptRepo.deleteById(id);
+        }
     }
 }

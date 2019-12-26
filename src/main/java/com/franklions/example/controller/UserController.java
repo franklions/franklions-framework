@@ -69,7 +69,6 @@ public class UserController {
 
 
     @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
-    @ApiImplicitParam(name = "account",value = "用户帐号")
     @GetMapping(value = "/api/user/{id}")
     public UserDTO getUserById(@PathVariable("id") @NotNull @Min(value=1,message = "id 不能小于1") Integer id){
         Optional<UserDTO> dtoOpt = userService.getUserById(id);
@@ -81,4 +80,19 @@ public class UserController {
         return null;
     }
 
+    @ApiOperation(value = "根据ID删除用户",notes = "根据用户ID删除用户")
+    @DeleteMapping("/api/user/{id}")
+    public String removeUser(@PathVariable("id") Integer id){
+        userService.removeUser(id);
+        return "SUCCESS";
+    }
+
+    @ApiOperation(value="修改用户",notes = "根据ID修改用户信息")
+    @PutMapping("/api/user/{id}")
+    public String editUser(@NotNull @Valid @PathVariable("id") Integer id,
+                           @NotNull @Valid @RequestBody UserDTO request){
+        request.setId(id);
+        userService.editUser(request);
+        return "SUCCESS";
+    }
 }

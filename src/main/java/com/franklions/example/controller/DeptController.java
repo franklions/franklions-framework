@@ -36,4 +36,10 @@ public class DeptController {
         deptService.addDept(request);
         return "SUCCESS";
     }
+
+    @DeleteMapping("/api/dept/{id}")
+    public String removeDept(@PathVariable("id") Integer id){
+        deptService.removeDept(id);
+        return "SUCCESS";
+    }
 }

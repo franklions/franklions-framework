@@ -35,6 +35,7 @@ public class DeptDO {
     private Integer version;
 
     /**
+     * 删除部门的同时相关联的用户也会被删除，最好使用逻辑删除部门
      * 放弃与用户关系的维护操作，由用户去维护跟部门的关系
      */
     @OneToMany( mappedBy = "deptDO", cascade ={ CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE}, fetch = FetchType.LAZY)

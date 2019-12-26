@@ -52,7 +52,7 @@ public class UserDO  {
     private Boolean deleted;
 
     @ManyToOne(targetEntity = DeptDO.class, cascade ={ CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "deptid")
+    @JoinColumn(name = "deptid" )
     @JsonIgnoreProperties({"users"})
     private DeptDO deptDO;
 }
