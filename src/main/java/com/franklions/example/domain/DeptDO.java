@@ -34,8 +34,10 @@ public class DeptDO {
     private String tips;
     private Integer version;
 
-    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "deptid")
+    /**
+     * 放弃与用户关系的维护操作，由用户去维护跟部门的关系
+     */
+    @OneToMany( mappedBy = "deptDO", cascade ={ CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE}, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"deptDO"})
     private Set<UserDO> users;
 

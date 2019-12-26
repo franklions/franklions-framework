@@ -43,20 +43,6 @@ public class DeptServiceImpl implements IDeptService {
     @Override
     public DeptDO addDept(DeptDTO dto) {
         DeptDO deptDO = deptConverter.dto2entity(dto);
-        Set<UserDO> sessionUserList = new HashSet<>();
-        Set<UserDO> users = deptDO.getUsers();
-        for (UserDO user : users) {
-            if(user.getId()!= null && user.getId() >0) {
-                Optional<UserDO> userOpt = userRepo.findById(user.getId());
-                if (userOpt.isPresent()) {
-                    sessionUserList.add(userOpt.get());
-                }
-            }else{
-                sessionUserList.add(user);
-            }
-
-        }
-        deptDO.setUsers(sessionUserList);
         return deptRepo.save(deptDO);
     }
 }

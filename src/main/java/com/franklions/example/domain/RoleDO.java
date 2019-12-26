@@ -29,9 +29,10 @@ public class RoleDO {
     private String tips;
     private Integer version;
 
-    @ManyToMany(targetEntity = MenuDO.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @ManyToMany(targetEntity = MenuDO.class, cascade = {CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.LAZY)
     @JoinTable(name = "sys_relation", joinColumns = {@JoinColumn(name = "roleid", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "menuid", referencedColumnName = "id")})
+    @JsonIgnoreProperties({"roles"})
     private Set<MenuDO> menus;
 
     @ManyToOne(targetEntity = DeptDO.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)

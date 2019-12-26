@@ -29,4 +29,14 @@ public interface RoleConverter {
         Set<MenuDTO> collect = menuDOs.stream().map(m -> MenuConverter.INSTANCE.entity2dto(m)).collect(Collectors.toSet());
         return collect;
     }
+
+    @Mappings({
+            @Mapping(target = "menus",expression = "java( menuDTO2menuDO(roleDTO.getMenus()))"),
+    })
+    RoleDO dto2entity(RoleDTO roleDTO);
+
+    default Set<MenuDO> menuDTO2menuDO(Set<MenuDTO> menus) {
+        Set<MenuDO> collect = menus.stream().map(m -> MenuConverter.INSTANCE.dto2entity(m)).collect(Collectors.toSet());
+        return collect;
+    }
 }

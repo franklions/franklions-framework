@@ -8,6 +8,7 @@ import com.franklions.example.repository.RoleRepository;
 import com.franklions.example.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -46,5 +47,14 @@ public class RoleServiceImpl implements IRoleService {
 
         RoleMenuDTO roleMenuDTO = roleConverter.entity2RoleMenuDTO(roleOpt.get());
         return Optional.ofNullable(roleMenuDTO);
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public RoleDTO addRole(RoleDTO dto) {
+        RoleDO roleDO = roleConverter.dto2entity(dto);
+        RoleDO saveDO = roleRepo.save(roleDO);
+
+        return roleConverter.entity2dto(saveDO);
     }
 }

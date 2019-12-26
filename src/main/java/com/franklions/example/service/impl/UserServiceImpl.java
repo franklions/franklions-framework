@@ -88,18 +88,11 @@ public class UserServiceImpl extends AbstractBaseService implements UserService 
 //        if (constraintViolation != null) {
 //            throw new ValidationException(constraintViolation.getMessage());
 //        }
-
         UserDO newUser = userConverter.dto2do(user);
         newUser.setCreatetime(new Date());
         newUser.setPassword(UUID.randomUUID().toString());
         newUser.setDeleted(false);
         UserDO userDO = userDAO.insert(newUser);
-
-        Optional<DeptDO> deptOpt = deptRepo.findById(user.getDeptid());
-        if(deptOpt.isPresent()){
-            DeptDO deptDO = deptOpt.get();
-            deptDO.getUsers().add(userDO);
-        }
         return Optional.ofNullable(userDO.getId());
     }
 }

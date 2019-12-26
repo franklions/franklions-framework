@@ -15,4 +15,6 @@ public interface IRoleService {
     Optional<RoleDTO> getRoleInfoById(Integer id);
 
     Optional<RoleMenuDTO> getRoleMenusById(Integer id);
+
+    RoleDTO addRole(RoleDTO request);
 }

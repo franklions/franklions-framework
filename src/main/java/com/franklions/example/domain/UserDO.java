@@ -41,7 +41,6 @@ public class UserDO  {
 
     @Column(name = "name")
     private String name;
-
     private Date birthday;
     private Integer sex;
     private String email;
@@ -52,7 +51,7 @@ public class UserDO  {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    @ManyToOne(targetEntity = DeptDO.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = DeptDO.class, cascade ={ CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "deptid")
     @JsonIgnoreProperties({"users"})
     private DeptDO deptDO;

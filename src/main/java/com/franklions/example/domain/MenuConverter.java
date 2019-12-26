@@ -14,4 +14,6 @@ public interface MenuConverter {
     MenuConverter INSTANCE = Mappers.getMapper(MenuConverter.class);
 
     MenuDTO entity2dto(MenuDO menuDO);
+
+    MenuDO dto2entity(MenuDTO m);
 }

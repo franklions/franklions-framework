@@ -17,9 +17,13 @@ public interface UserConverter {
     UserConverter INSTANCE = Mappers.getMapper(UserConverter.class);
 
     @Mappings({
-            @Mapping(target = "deptName",source = "deptDO.simplename")
+            @Mapping(target = "deptName",source = "deptDO.simplename"),
+            @Mapping(target = "deptid",source = "deptDO.id")
     })
     UserDTO domain2dto(UserDO user);
 
+    @Mappings({
+            @Mapping(target = "deptDO.id",source = "user.deptid")
+    })
     UserDO dto2do(UserDTO user);
 }
