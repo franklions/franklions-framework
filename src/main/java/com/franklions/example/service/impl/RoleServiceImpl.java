@@ -57,4 +57,10 @@ public class RoleServiceImpl implements IRoleService {
 
         return roleConverter.entity2dto(saveDO);
     }
+
+    @Transactional(rollbackFor = {Exception.class})
+    @Override
+    public void removeRole(Integer id) {
+        roleRepo.deleteById(id);
+    }
 }

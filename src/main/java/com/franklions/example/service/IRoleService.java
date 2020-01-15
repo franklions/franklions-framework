@@ -17,4 +17,6 @@ public interface IRoleService {
     Optional<RoleMenuDTO> getRoleMenusById(Integer id);
 
     RoleDTO addRole(RoleDTO request);
+
+    void removeRole(Integer id);
 }

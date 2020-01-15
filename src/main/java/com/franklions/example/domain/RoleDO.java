@@ -35,7 +35,7 @@ public class RoleDO {
     @JsonIgnoreProperties({"roles"})
     private Set<MenuDO> menus;
 
-    @ManyToOne(targetEntity = DeptDO.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = DeptDO.class, cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "deptid")
     @JsonIgnoreProperties({"users"})
     private DeptDO deptDO;

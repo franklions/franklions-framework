@@ -36,4 +36,10 @@ public class RoleController {
         roleService.addRole(request);
         return "SUCCESS";
     }
+
+    @DeleteMapping("/api/role/{id}")
+    public String removeRole(@PathVariable("id") Integer id){
+        roleService.removeRole(id);
+        return "SUCCESS";
+    }
 }
