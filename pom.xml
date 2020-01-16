@@ -14,6 +14,11 @@
     <packaging>jar</packaging>
     <version>0.0.1</version>
 
+
+    <properties>
+        <docker.repostory>registry.cn-beijing.aliyuncs.com/lw-care</docker.repostory>
+        <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+    </properties>
     <!-- Add typical dependencies for a web application -->
     <dependencies>
         <!--spring boot web application -->
@@ -109,6 +114,27 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>${dockerfile-maven-version}</version>
+                <executions>
+                    <execution>
+                        <id>build</id>
+                        <goals>
+                            <goal>build</goal>
+                            <!--<goal>push</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <repository>${docker.repostory}/${project.artifactId}</repository>
+                    <tag>${project.version}</tag>
+                    <buildArgs>
+                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
             </plugin>
         </plugins>
     </build>
