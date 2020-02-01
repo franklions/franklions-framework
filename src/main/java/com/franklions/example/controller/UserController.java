@@ -36,28 +36,28 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value = "添加用户",notes = "添加用户")
-    @PostMapping("/api/user")
+    @PostMapping("/user")
     public String addUser(@RequestBody @NotNull @Valid UserDTO user){
         userService.addUser(user);
         return "SUCCESS";
     }
 
     @ApiOperation(value = "获取所有用户信息",notes = "获取所有用户信息")
-    @GetMapping(value = "/api/alluser")
+    @GetMapping(value = "/alluser")
     public List<UserDTO> getAllUser(){
         return userService.getAllUsers();
     }
 
     @ApiOperation(value = "根据名称获取用户信息",notes = "根据名称获取用户信息")
     @ApiImplicitParam(name = "name",value = "用户名称")
-    @GetMapping(value = "/api/user",params = "name")
+    @GetMapping(value = "/user",params = "name")
     public List<UserDTO> getUserByName(@RequestParam(name = "name") @NotNull @Size(min = 2, max = 30, message = "2<长度<30") String name){
         return userService.getUserByName(name);
     }
 
     @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
     @ApiImplicitParam(name = "account",value = "用户帐号")
-    @GetMapping(value = "/api/user/acc",params = "account")
+    @GetMapping(value = "/user/acc",params = "account")
     public UserDTO getUserByAccount(@RequestParam(name = "account") String account){
         //返回Optional避免NPE问题
         Optional<UserDTO> dtoOpt = userService.getUserByAccount(account);
@@ -70,7 +70,7 @@ public class UserController {
 
     @ApiOperation(value = "根据帐号获取用户信息",notes = "根据帐号获取用户信息")
     @ApiImplicitParam(name = "account",value = "用户帐号")
-    @GetMapping(value = "/api/user/{id}")
+    @GetMapping(value = "/user/{id}")
     public UserDTO getUserById(@PathVariable("id") @NotNull @Min(value=1,message = "id 不能小于1") Integer id){
         Optional<UserDTO> dtoOpt = userService.getUserById(id);
 
