@@ -1,10 +1,8 @@
 package com.franklions.example.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.franklions.example.filter.HttpLogFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -24,9 +22,6 @@ import org.springframework.web.filter.GenericFilterBean;
 @EnableConfigurationProperties(value = {AppConfigProperties.class})
 public class AppConfig {
 
-    @Autowired
-    private AppConfigProperties properties;
-
 //    @Bean
 //    @Qualifier("apiControllerFilterRegister")
 //    public FilterRegistrationBean apiControllerRegistFilter(UserCenterService tokenService, ObjectMapper objectMapper, AppConfigProperties properties) {
@@ -40,7 +35,8 @@ public class AppConfig {
 //    }
 
     @Bean
-    public FilterRegistrationBean httpLogFilter() {
+
+    public FilterRegistrationBean httpLogFilter(AppConfigProperties properties) {
         FilterRegistrationBean<GenericFilterBean> registration = new FilterRegistrationBean();
         HttpLogFilter httpLogFilter = new HttpLogFilter(properties);
         registration.setFilter(httpLogFilter);
