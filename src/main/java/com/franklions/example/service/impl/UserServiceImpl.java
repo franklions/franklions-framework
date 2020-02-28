@@ -2,7 +2,7 @@ package com.franklions.example.service.impl;
 
 import com.franklions.example.dao.IUserDAO;
 import com.franklions.example.domain.DeptDO;
-import com.franklions.example.domain.UserConverter;
+import com.franklions.example.domain.mapper.UserConverter;
 import com.franklions.example.domain.UserDO;
 import com.franklions.example.domain.UserDTO;
 import com.franklions.example.repository.DeptRepository;

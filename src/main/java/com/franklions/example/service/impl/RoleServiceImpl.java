@@ -1,6 +1,6 @@
 package com.franklions.example.service.impl;
 
-import com.franklions.example.domain.RoleConverter;
+import com.franklions.example.domain.mapper.RoleConverter;
 import com.franklions.example.domain.RoleDO;
 import com.franklions.example.domain.RoleDTO;
 import com.franklions.example.domain.RoleMenuDTO;

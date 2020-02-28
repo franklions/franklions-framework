@@ -1,5 +1,6 @@
-package com.franklions.example.domain;
+package com.franklions.example.domain.mapper;
 
+import com.franklions.example.domain.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
