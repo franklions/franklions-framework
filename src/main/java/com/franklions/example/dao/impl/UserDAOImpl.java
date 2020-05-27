@@ -6,12 +6,15 @@ import com.franklions.example.domain.UserDO;
 import com.franklions.example.repository.UserRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.criteria.JoinType;
 import java.util.*;
 
 /**
@@ -45,6 +48,12 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
     }
 
     @Override
+    public List<UserDO> selectByEntity(UserDO entity) {
+        /*使用QBE查询*/
+        return userRepo.findAll(Example.of(entity));
+    }
+
+    @Override
     public Optional<UserDO> selectUserDetialById(Integer id) {
         return userRepo.findById(id);
     }
@@ -64,25 +73,25 @@ public class UserDAOImpl extends BaseDAO implements IUserDAO {
         userRepo.save(userDO);
     }
 
-//    /**
-//     * 构造动态查询语句
-//     * @param id
-//     * @return
-//     */
-//    public Optional<UserDO> findOne(Integer id){
-//        Optional<UserDO> optional = userRepo.findOne((root, query, cb) -> {
-//
-//            root.fetch("deptDO", JoinType.LEFT);
-//
-//            super.buildPredicates();
-//
-//            super.addPredicate(cb.isFalse(root.get("deleted")));
-//            super.addPredicate(cb.equal(root.get("id"), id));
-//
-//            return cb.and(super.getPredicateArray());
-//        });
-//        return optional;
-//    }
+    /**
+     * 构造动态查询语句
+     * @param id
+     * @return
+     */
+    public Optional<UserDO> findOne(Integer id){
+        Optional<UserDO> optional = userRepo.findOne((root, query, cb) -> {
+
+            root.fetch("deptDO", JoinType.LEFT);
+
+            super.buildPredicates();
+
+            super.addPredicate(cb.isFalse(root.get("deleted")));
+            super.addPredicate(cb.equal(root.get("id"), id));
+
+            return cb.and(super.getPredicateArray());
+        });
+        return optional;
+    }
 
     /**
      * 利用sql语句进行查询

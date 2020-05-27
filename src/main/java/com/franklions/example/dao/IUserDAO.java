@@ -18,6 +18,8 @@ public interface IUserDAO {
 
     UserDO selectByAccount(String account);
 
+    List<UserDO> selectByEntity(UserDO entity);
+
     Optional<UserDO> selectUserDetialById(Integer id);
 
     UserDO insert(UserDO userDO);
