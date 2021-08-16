@@ -2,7 +2,6 @@ package com.franklions.example.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * 全局异常处理
- * @author flsh
+ * @author Administrator
  * @version 1.0
  * @date 2019-12-09
  * @since Jdk 1.8
@@ -34,6 +34,14 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ErrorResult handleNoHandlerFoundException(NoHandlerFoundException e){
+        logger.warn("非法的访问路径(404)", e);
+        return new ErrorResult(404,"非法的访问路径");
+    }
+
 
     /**
      * 400 - Bad Request
@@ -93,12 +101,11 @@ public class GlobalExceptionHandler {
                 for(FieldError error : result.getFieldErrors()){
                     sbErr.append(String.format("%s:%s", error.getField(), error.getDefaultMessage()));
                 }
-
-                return new ErrorResult(400,sbErr.toString());
+                return new ErrorResult(Integer.valueOf(ErrorCode.PARAMETER_VALID_ERROR[0].toString()),sbErr.toString());
             }
         }
 
-        return new ErrorResult(400,"required_parameter_notvalid");
+        return new ErrorResult(ErrorCode.PARAMETER_VALID_ERROR);
     }
 
     /**
@@ -144,6 +151,28 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * 404 not found resource
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundResourceException.class)
+    public ErrorResult notFoundResourceException(NotFoundResourceException e){
+        return e.getErrorResult();
+    }
+
+    /**
+     * 请求参数错误
+     * @param e
+     * @return
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ControllerValidationException.class)
+    public ErrorResult controllerValidationException(ControllerValidationException e){
+        return e.getErrorResult();
+    }
+
+    /**
      * 405 - Method Not Allowed
      */
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
@@ -182,6 +211,20 @@ public class GlobalExceptionHandler {
         logger.error("未知异常", e);
         return new ErrorResult(500,"未知异常：" + e.getMessage());
     }
+
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(UserValidateException.class)
+//    public ErrorResult handleUserValidateException(UserValidateException e) {
+//        logger.error("用户验证错误", e);
+//        return e.getErrorResult();
+//    }
+//
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(UserCenterServiceException.class)
+//    public ErrorResult handleUserCenterException(UserCenterServiceException e) {
+//        logger.error("IOT用户中心错误", e);
+//        return e.getErrorResult();
+//    }
 
 //    /**
 //     * 操作数据库出现异常:名称重复，外键关联

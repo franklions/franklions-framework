@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Configuration status="WARN">
+
+    <Properties>
+
+        <Property name="APP_NAME">yscloud-aispeaker</Property>
+        <Property name="LOG_ROOT">logs</Property>
+        <Property name="LOG_NAME">${APP_NAME}-sys.log</Property>
+        <Property name="HTTP_LOG_NAME">${APP_NAME}-http.log</Property>
+        <Property name="LOG_FULL_PATH">./${LOG_ROOT}/${LOG_NAME}</Property>
+        <Property name="HTTP_LOG_FULL_PATH">./${LOG_ROOT}/${HTTP_LOG_NAME}</Property>
+
+        <Property name="CONSOLE_PATTERN">%clr{[%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8}]}{faint} %clr{[%t]}{magenta} %clr{[%-5level]} %clr{[%logger{36}]}{cyan} - %clr{%msg%n}{faint}</Property>
+
+        <Property name="ROLLING_PATTERN">[%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8}] [%t] [%-5level] [%logger{36}] - %msg%n</Property>
+        <Property name="FILE_PATTERN">./${LOG_ROOT}/archive_log/${APP_NAME}-sys-%i.log.gz</Property>
+
+        <Property name="HTTP_ROLLING_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8} %msg%n</Property>
+        <Property name="HTTP_FILE_PATTERN">./${LOG_ROOT}/archive_log/${APP_NAME}-http-%i.log.gz</Property>
+
+    </Properties>
+
+    <Appenders>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_PATTERN}" />
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${LOG_FULL_PATH}" filePattern="${FILE_PATTERN}">
+            <PatternLayout pattern="${ROLLING_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="4MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="HttpAccessRollingFile" fileName="${HTTP_LOG_FULL_PATH}" filePattern="${HTTP_FILE_PATTERN}">
+            <PatternLayout pattern="${HTTP_ROLLING_PATTERN}" />
+            <Policies>
+                <SizeBasedTriggeringPolicy size="4MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <logger name="com.lianwukeji.yscloud.aispeaker.handler.HttpLogHandler" additivity="false">
+            <AppenderRef ref="HttpAccessRollingFile" />
+<!--            <AppenderRef ref="Console" />-->
+        </logger>
+
+        <Root level="INFO">
+            <AppenderRef ref="RollingFile" />
+<!--               <AppenderRef ref="Console" />-->
+          </Root>
+
+      </Loggers>
+
+  </Configuration>

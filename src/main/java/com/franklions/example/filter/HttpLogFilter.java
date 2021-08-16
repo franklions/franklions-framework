@@ -1,5 +1,6 @@
 package com.franklions.example.filter;
 
+
 import com.franklions.example.config.AppConfigProperties;
 import com.franklions.example.handler.HttpLogHandler;
 import com.franklions.example.utils.ServletUtil;
@@ -13,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author flsh
+ * @author Administrator
  * @version 1.0
  * @date 2020/1/22
  * @since Jdk 1.8
@@ -40,7 +41,7 @@ public class HttpLogFilter extends OncePerRequestFilter {
         }
 
         String api = ServletUtil.getApi(request, this.properties.getContextPath());
-        String token = ServletUtil.getToken(request, this.properties.getTokenPrefix());
+        String token = ServletUtil.getToken(request, "");
         String params = ServletUtil.getParams(request);
 
         try {

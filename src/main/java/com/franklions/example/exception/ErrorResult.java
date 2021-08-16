@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author flsh
+ * @author Administrator
  * @version 1.0
  * @date 2019-12-09
  * @since Jdk 1.8
@@ -16,4 +16,10 @@ import lombok.NoArgsConstructor;
 public class ErrorResult {
     private Integer errorCode;
     private String errorMessage;
+
+    public ErrorResult(Object[] error){
+        this.errorCode = Integer.valueOf(error[0].toString());
+        this.errorMessage = error[1].toString();
+    }
+
 }

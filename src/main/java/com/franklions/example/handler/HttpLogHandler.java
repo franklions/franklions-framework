@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import java.text.MessageFormat;
 
 /**
- * @author flsh
+ * @author Administrator
  * @version 1.0
  * @date 2020/1/22
  * @since Jdk 1.8
@@ -20,8 +20,10 @@ public class HttpLogHandler {
     private Logger logger = LoggerFactory.getLogger(HttpLogHandler.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
     private AppConfigProperties properties;
+    public HttpLogHandler() {
+    }
 
-    public HttpLogHandler( AppConfigProperties properties) {
+    public HttpLogHandler(AppConfigProperties properties) {
         this.properties = properties;
     }
 
