@@ -9,7 +9,7 @@ EXPOSE 8080
 
 WORKDIR /usr/local/micro-service/
 
-ENV JAVA_OPTS -Xms256m -Xmx256m
-ENV JAVA_ARGS --spring.profiles.active=local
+ENV JAVA_OPTS -Xms512m -Xmx512m
+ENV JAVA_ARGS --spring.profiles.active=pro
 
 ENTRYPOINT /usr/bin/java $JAVA_OPTS -jar app.jar $JAVA_ARGS

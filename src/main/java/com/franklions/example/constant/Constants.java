@@ -10,4 +10,9 @@ public class Constants {
     public static final boolean SUCCESS = true;
     public static final String DELETED ="deleted";
     public static final String DISABLED ="disabled";
+    public static final String ROLENAME="roleName";
+    public static final String APPID="appId";
+    public static final String USERID="userId";
+    public static final String PERMISSIONID="permissionId";
+    public static final String ROLEID="roleId";
 }

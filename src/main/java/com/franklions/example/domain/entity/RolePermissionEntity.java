@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Data
-@Table(name = "tb_user_device")
-public class UserDevice {
+@Table(name = "tb_role_permission")
+public class RolePermissionEntity {
     /**
      * 记录ID 自增列记录ID
      */
@@ -18,28 +18,22 @@ public class UserDevice {
     private Long id;
 
     /**
-     * 用户ID
+     * 应用ID
      */
-    @Column(name = "user_id")
-    private String userId;
+    @Column(name = "app_id")
+    private String appId;
 
     /**
-     * 型号ID
+     * 角色ID
      */
-    @Column(name = "model_id")
-    private String modelId;
+    @Column(name = "role_id")
+    private String roleId;
 
     /**
-     * 设备ID
+     * 权限ID
      */
-    @Column(name = "device_id")
-    private String deviceId;
-
-    /**
-     * 设备类型
-     */
-    @Column(name = "device_type")
-    private String deviceType;
+    @Column(name = "permission_id")
+    private String permissionId;
 
     /**
      * 创建时间

@@ -1,5 +1,6 @@
 package com.franklions.example.service.impl;
 
+import com.franklions.example.service.AccessTokenService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @since Jdk 1.8
  */
 @Service
-public class AccessTokenServiceImpl {
+public class AccessTokenServiceImpl implements AccessTokenService {
 }
