@@ -45,7 +45,10 @@ public class BaseEntity {
      */
     private Long ts;
 
-    public void setCreateData(){
+    /**
+     * 初始化默认值
+     */
+    public void initDefaultValue(){
         this.disabled=false;
         this.deleted=false;
         this.gmtCreated= System.currentTimeMillis();
