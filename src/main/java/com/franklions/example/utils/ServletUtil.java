@@ -8,6 +8,8 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -42,6 +44,11 @@ public class ServletUtil {
         return !StringUtils.isEmpty(contentType) ? contentType.toLowerCase().contains("application/json") : false;
     }
 
+    public static boolean isTextResponse(HttpServletResponse response) {
+        String contentType = response.getContentType();
+        return !StringUtils.isEmpty(contentType) ? contentType.toLowerCase().contains("text/plain") : false;
+    }
+
     public static String getToken(HttpServletRequest request, String tokenPrefix) {
         String token = request.getHeader("Authorization");
         return !StringUtils.isEmpty(token) ? token.replaceFirst(tokenPrefix, "").trim() : null;
@@ -72,5 +79,20 @@ public class ServletUtil {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, String[]> paramMap = request.getParameterMap();
         return mapper.writeValueAsString(paramMap);
+    }
+
+    public static String getHeaders(HttpServletRequest request) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String,String> headMap = new HashMap<>();;
+        Enumeration<String> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()){
+            String name = headerNames.nextElement();
+            if(name.startsWith("x-")){
+                String value = request.getHeader(name);
+                headMap.put(name,value);
+            }
+        }
+
+        return mapper.writeValueAsString(headMap);
     }
 }

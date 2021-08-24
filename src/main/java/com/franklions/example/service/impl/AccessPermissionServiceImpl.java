@@ -48,7 +48,7 @@ public class AccessPermissionServiceImpl implements AccessPermissionService {
         AccessPermissionEntity entity = convert.req2entity(request);
         entity.setPermissionId(IdGenerator.newUUID());
         entity.setAppId(appId);
-        entity.setCreateData();
+        entity.initDefaultValue();
         mapper.insert(entity);
     }
 

@@ -43,14 +43,18 @@ public class HttpLogFilter extends OncePerRequestFilter {
         String api = ServletUtil.getApi(request, this.properties.getContextPath());
         String token = ServletUtil.getToken(request, "");
         String params = ServletUtil.getParams(request);
+        // 记录头部日志需要以"x-"开头
+        String headers = ServletUtil.getHeaders(request);
 
         try {
 
-            this.httpLogHandler.logRequest(api, params+"|"+reqBody,token);
+            this.httpLogHandler.logRequest(api, headers+"|"+params+"|"+reqBody,token);
             filterChain.doFilter(requestWrapper, responseWrapper);
             String respBody = "IS NOT JSON";
             if (ServletUtil.isJsonResponse(response)) {
                 respBody = IOUtils.toString(responseWrapper.toByteArray(), responseWrapper.getCharacterEncoding());
+            }else if(ServletUtil.isTextResponse(response)){
+                respBody = new String(responseWrapper.toByteArray());
             }
 
             this.httpLogHandler.logResponse(api, respBody, token);

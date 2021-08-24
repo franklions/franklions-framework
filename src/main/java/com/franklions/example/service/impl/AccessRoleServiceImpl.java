@@ -49,7 +49,7 @@ public class AccessRoleServiceImpl implements AccessRoleService {
         AccessRoleEntity accessRoleEntity = convert.INSTANCE.req2entity(request);
         accessRoleEntity.setRoleId(IdGenerator.newUUID());
         accessRoleEntity.setAppId(appId);
-        accessRoleEntity.setCreateData();
+        accessRoleEntity.initDefaultValue();
         mapper.insert(accessRoleEntity);
     }
 

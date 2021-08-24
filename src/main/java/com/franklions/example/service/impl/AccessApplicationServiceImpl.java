@@ -124,7 +124,7 @@ public class AccessApplicationServiceImpl implements AccessApplicationService {
     public void createApplication(AccessApplicationRequest request) {
         AccessApplicationEntity newEntity = convert.req2entity(request);
         newEntity.setAppId(IdGenerator.newUUID());
-        newEntity.setCreateData();
+        newEntity.initDefaultValue();
         mapper.insert(newEntity);
     }
 
