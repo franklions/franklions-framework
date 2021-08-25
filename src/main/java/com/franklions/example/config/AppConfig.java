@@ -1,7 +1,11 @@
 package com.franklions.example.config;
 
+import com.alicp.jetcache.anno.support.SpringConfigProvider;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.franklions.example.caches.FastJsonSerialPolicy;
+import com.franklions.example.caches.JacksonKeyConvertor;
+import com.franklions.example.caches.JacksonSerialPolicy;
 import com.franklions.example.filter.HttpControllerAuthorizeFilter;
 import com.franklions.example.filter.HttpLogFilter;
 import com.franklions.example.service.AccessTokenService;
@@ -18,6 +22,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.GenericFilterBean;
+
+import java.util.function.Function;
 
 /**
  * @author Administrator
@@ -94,5 +100,55 @@ public class AppConfig {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
         taskScheduler.setPoolSize(50);
         return taskScheduler;
+    }
+
+    /**
+     * jackson缓存序列化方法
+     * @return
+     */
+    @Bean(name = "jacksonPolicy")
+    public JacksonSerialPolicy jsonSerializerPolicy() {
+        return new JacksonSerialPolicy();
+    }
+
+    public static final String JACKSON = "jackson";
+    public static final String FASTJSON = "fastjson";
+
+    /**
+     重写 SpringConfigProvider 中的编码和解码
+
+     **/
+    @Bean
+    public SpringConfigProvider springConfigProvider() {
+        return new SpringConfigProvider() {
+
+            @Override
+            public Function<byte[], Object> parseValueDecoder(String valueDecoder) {
+                if (FASTJSON.equalsIgnoreCase(valueDecoder)) {
+                    return new FastJsonSerialPolicy().decoder();
+                } else if (JACKSON.equalsIgnoreCase(valueDecoder)) {
+                    return new JacksonSerialPolicy().decoder();
+                }
+                return super.parseValueDecoder(valueDecoder);
+            }
+
+            @Override
+            public Function<Object, byte[]> parseValueEncoder(String valueEncoder) {
+                if (FASTJSON.equalsIgnoreCase(valueEncoder)) {
+                    return new FastJsonSerialPolicy().encoder();
+                } else if (JACKSON.equalsIgnoreCase(valueEncoder)) {
+                    return new JacksonSerialPolicy().encoder();
+                }
+                return super.parseValueEncoder(valueEncoder);
+            }
+
+            @Override
+            public Function<Object, Object> parseKeyConvertor(String convertor) {
+                if (JACKSON.equalsIgnoreCase(convertor)) {
+                    return JacksonKeyConvertor.INSTANCE;
+                }
+                return super.parseKeyConvertor(convertor);
+            }
+        };
     }
 }

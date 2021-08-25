@@ -2,6 +2,8 @@ package com.franklions.example.domain.dto;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @author flsh
  * @version 1.0
@@ -9,7 +11,7 @@ import lombok.Data;
  * @since Jdk 1.8
  */
 @Data
-public class AccessApplicationDTO {
+public class AccessApplicationDTO implements Serializable {
     private Long id;
     private String appId;
     private String appName;

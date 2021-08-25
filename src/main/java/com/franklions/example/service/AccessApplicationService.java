@@ -32,4 +32,6 @@ public interface AccessApplicationService {
     void removeApplication(AccessApplicationEntity entity);
 
     Optional<AccessApplicationEntity> getVerifyByAppId(String appId);
+
+    AccessApplicationDTO getCacheApp(String appId);
 }

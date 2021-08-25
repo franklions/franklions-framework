@@ -75,6 +75,12 @@ public class AccessApplicationController extends BaseController {
         return entityOpt.get();
     }
 
+    @GetMapping("/{appId}/cache/get")
+    public AccessApplicationDTO loadCache(@PathVariable("appId") String appId){
+        AccessApplicationDTO entity = service.getCacheApp(appId);
+        return entity;
+    }
+
     @GetMapping("/list")
     public List<AccessApplicationDTO> loadApplicationList(){
         return service.listAll();

@@ -1,5 +1,8 @@
 package com.franklions.example.service.impl;
 
+import com.alicp.jetcache.Cache;
+import com.alicp.jetcache.anno.CacheType;
+import com.alicp.jetcache.anno.CreateCache;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.franklions.example.constant.Constants;
 import com.franklions.example.domain.dto.AccessApplicationDTO;
@@ -22,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -32,6 +36,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AccessApplicationServiceImpl implements AccessApplicationService {
+
+    @CreateCache(name = "application.",expire = 5,timeUnit = TimeUnit.MINUTES,cacheType = CacheType.REMOTE)
+    private Cache<String,AccessApplicationDTO> applicationCache;
 
     private static final String APPNAME = "appName";
     private AccessApplicationMapper mapper;
@@ -67,6 +74,25 @@ public class AccessApplicationServiceImpl implements AccessApplicationService {
         }});
         AccessApplicationDTO accessApplicationDTO = convert.entity2dto(entity);
         return Optional.ofNullable(accessApplicationDTO);
+    }
+
+    public AccessApplicationDTO getByAppId(String appId) {
+        AccessApplicationEntity entity = mapper.selectOne(new AccessApplicationEntity(){{
+            setAppId(appId);
+            setDeleted(false);
+        }});
+        AccessApplicationDTO accessApplicationDTO = convert.entity2dto(entity);
+        return accessApplicationDTO;
+    }
+
+    /**
+     * 获取缓数据
+     * @param appId
+     * @return
+     */
+    @Override
+    public AccessApplicationDTO getCacheApp(String appId){
+        return applicationCache.computeIfAbsent(appId,this::getByAppId);
     }
 
     @Override
