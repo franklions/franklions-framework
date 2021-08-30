@@ -16,7 +16,7 @@
 
 
     <properties>
-        <docker.repostory>registry.cn-beijing.aliyuncs.com/lw-care</docker.repostory>
+        <docker.repostory>registry-vpc.cn-beijing.aliyuncs.com/lw-care</docker.repostory>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
     </properties>
     <!-- Add typical dependencies for a web application -->

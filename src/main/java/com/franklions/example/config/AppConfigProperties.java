@@ -14,7 +14,7 @@ import java.util.Set;
  * @since Jdk 1.8
  */
 @Data
-@ConfigurationProperties(prefix = "daxin.iot.console")
+@ConfigurationProperties(prefix = "example.api")
 public class AppConfigProperties {
 
     @Value("${server.servlet.context-path}")
