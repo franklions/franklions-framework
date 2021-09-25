@@ -2,8 +2,8 @@ package com.franklions.example.controller;
 
 import com.franklions.example.constant.Constants;
 import com.franklions.example.domain.dto.AccessPermissionDTO;
-import com.franklions.example.domain.dto.PageParamRequest;
-import com.franklions.example.domain.dto.PageReturnValue;
+import com.franklions.example.domain.PageParamRequest;
+import com.franklions.example.domain.PageReturnValue;
 import com.franklions.example.domain.entity.AccessPermissionEntity;
 import com.franklions.example.domain.request.AccessPermissionRequest;
 import com.franklions.example.exception.ErrorCode;

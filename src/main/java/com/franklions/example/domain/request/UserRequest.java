@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
@@ -33,6 +34,11 @@ public class UserRequest {
     @Size(min = 2, max = 30, message = "2<长度<30")
     private String name;
     private Date birthday;
+
+    @NotBlank(message = "状态不能为空")
+    @Pattern(regexp = "^(0|1|2|3|-1)$",message = "状态值不正确")
+    private String status;
+
     private Integer sex;
     private String email;
     private String phone;

@@ -1,4 +1,4 @@
-package com.franklions.example.domain.dto;
+package com.franklions.example.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

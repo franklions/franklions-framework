@@ -1,8 +1,8 @@
 package com.franklions.example.service;
 
 import com.franklions.example.domain.dto.AccessPermissionDTO;
-import com.franklions.example.domain.dto.PageParamRequest;
-import com.franklions.example.domain.dto.PageReturnValue;
+import com.franklions.example.domain.PageParamRequest;
+import com.franklions.example.domain.PageReturnValue;
 import com.franklions.example.domain.entity.AccessPermissionEntity;
 import com.franklions.example.domain.request.AccessPermissionRequest;
 

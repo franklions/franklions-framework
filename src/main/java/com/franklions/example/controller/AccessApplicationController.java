@@ -2,8 +2,8 @@ package com.franklions.example.controller;
 
 import com.franklions.example.constant.Constants;
 import com.franklions.example.domain.dto.AccessApplicationDTO;
-import com.franklions.example.domain.dto.PageParamRequest;
-import com.franklions.example.domain.dto.PageReturnValue;
+import com.franklions.example.domain.PageParamRequest;
+import com.franklions.example.domain.PageReturnValue;
 import com.franklions.example.domain.entity.AccessApplicationEntity;
 import com.franklions.example.domain.request.AccessApplicationRequest;
 import com.franklions.example.exception.ControllerValidationException;

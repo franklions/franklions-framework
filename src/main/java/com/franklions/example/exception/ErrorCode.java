@@ -2,6 +2,7 @@ package com.franklions.example.exception;
 
 public class ErrorCode {
 
+    public static Object[] SUCCESS = {200,"请求成功","SUCCESS"};
     //系统通用类
     public static Object[] PARAMETER_VALID_ERROR = {400001, "参数验证失败", "PARAMETER_VALID_ERROR"};
     public static Object[] NO_FOUND_RECORD_ERROR={400002,"未找到相关记录","NO_FOUND_RECORD"};
