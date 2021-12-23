@@ -18,6 +18,7 @@
     <properties>
         <docker.repostory>registry-vpc.cn-beijing.aliyuncs.com/lw-care</docker.repostory>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+        <log4j2.version>2.17.0</log4j2.version>
     </properties>
     <!-- Add typical dependencies for a web application -->
     <dependencies>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>27.1-jre</version>
+            <version>30.1.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
