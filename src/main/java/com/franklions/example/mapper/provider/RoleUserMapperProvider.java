@@ -1,6 +1,10 @@
 package com.franklions.example.mapper.provider;
 
+import com.franklions.example.domain.PageParamRequest;
+import com.franklions.example.domain.dto.RoleUserPageQuery;
 import com.franklions.example.domain.entity.RoleUserEntity;
+import com.google.common.base.CaseFormat;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.text.MessageFormat;
@@ -11,6 +15,47 @@ import java.util.List;
  * @Date: 2020/10/23 13:15
  */
 public class RoleUserMapperProvider {
+
+    public static String selectByPage(@Param("request") PageParamRequest request,
+                                      @Param("query") RoleUserPageQuery query){
+        StringBuilder sql =  new StringBuilder();
+        sql.append(" SELECT br.id,br.device_id AS deviceId,br.batch_num AS batchNum,br.`status`,br.status_update AS statusUpdate,br.remark ,br.gmt_created AS gmtCreated,br.gmt_modified AS gmtModified");
+        sql.append("  ,di.device_name AS deviceName,pi.product_id AS productId,pi.product_name AS productName FROM tb_ota_batch_record AS br  ");
+        sql.append(createPageSQL(query));
+        if(request.getDesc()) {
+            sql.append (" order by br."+ CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,  request.getSort()) + " desc");
+        }else
+        {
+            sql.append (" order by br."+CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE,  request.getSort()));
+        }
+        sql.append(" LIMIT "+ request.getStart()+","+request.getCount());
+        return sql.toString();
+    }
+
+    public static String selectCountByPage(@Param("query") RoleUserPageQuery query){
+        StringBuilder sql = new StringBuilder();
+        sql.append(" SELECT COUNT(*) FROM tb_ota_batch_record AS br");
+        sql.append(createPageSQL(query));
+        return sql.toString();
+    }
+
+    private static StringBuilder createPageSQL(RoleUserPageQuery query) {
+        StringBuilder sql = new StringBuilder();
+
+        sql.append(" INNER JOIN tb_device_info AS di ON di.device_id = br.device_id AND di.deleted =FALSE ");
+        sql.append(" LEFT JOIN tb_product_info AS pi ON pi.product_id = di.product_id AND pi.deleted=FALSE ");
+        sql.append(" WHERE br.deleted = FALSE ");
+
+        if(StringUtils.isNotBlank(query.getRoleId())){
+            sql.append(" AND br.role_id = #{query.roleId} ");
+        }
+
+        if(StringUtils.isNotBlank(query.getDeviceName())){
+            sql.append(" AND di.device_name like CONCAT('%',#{query.deviceName},'%')");
+        }
+
+        return sql;
+    }
 
     public static String insertRoleUser(@Param("list") List<RoleUserEntity> roleUserEntities) {
         StringBuilder sql = new StringBuilder();

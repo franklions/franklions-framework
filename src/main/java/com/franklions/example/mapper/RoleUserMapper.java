@@ -1,5 +1,7 @@
 package com.franklions.example.mapper;
 
+import com.franklions.example.domain.PageParamRequest;
+import com.franklions.example.domain.dto.RoleUserPageQuery;
 import com.franklions.example.domain.entity.AccessRoleEntity;
 import com.franklions.example.domain.entity.RoleUserEntity;
 import com.franklions.example.mapper.provider.RoleUserMapperProvider;
@@ -21,4 +23,11 @@ public interface RoleUserMapper extends Mapper<RoleUserEntity>{
 
     @SelectProvider(type = RoleUserMapperProvider.class,method = "mealUserList")
     List<String> mealUserList(@Param("appId") String appId, @Param("code") String code);
+
+    @SelectProvider(type = RoleUserMapperProvider.class,method = "selectByPage")
+    List<AccessRoleEntity> selectByPage(@Param("request") PageParamRequest request,
+                                         @Param("query") RoleUserPageQuery query);
+
+    @SelectProvider(type = RoleUserMapperProvider.class,method = "selectCountByPage")
+    Integer selectCountByPage(@Param("query") RoleUserPageQuery query);
 }
