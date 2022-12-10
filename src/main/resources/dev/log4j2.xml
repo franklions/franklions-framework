@@ -16,7 +16,7 @@
         <Property name="ROLLING_PATTERN">[%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8}] [%t] [%-5level] [%logger{36}] - %msg%n</Property>
         <Property name="FILE_PATTERN">./${LOG_ROOT}/archive_log/${APP_NAME}-sys-%i.log.gz</Property>
 
-        <Property name="HTTP_ROLLING_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8} %msg%n</Property>
+        <Property name="HTTP_ROLLING_PATTERN">%d{yyyy-MM-dd HH:mm:ss,SSS}{GMT+8} [%t] %msg%n</Property>
         <Property name="HTTP_FILE_PATTERN">./${LOG_ROOT}/archive_log/${APP_NAME}-http-%i.log.gz</Property>
 
     </Properties>
