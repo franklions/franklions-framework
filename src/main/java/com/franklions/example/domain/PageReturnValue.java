@@ -1,5 +1,6 @@
 package com.franklions.example.domain;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -15,14 +16,19 @@ import java.util.List;
 @Data
 public class PageReturnValue<T> {
     private List<T> rows;
-    private Integer total;
+    private Long total;
 
-    public PageReturnValue(List<T> rows, Integer total) {
+    public PageReturnValue(List<T> rows, Long total) {
         this.rows = rows;
         this.total = total;
     }
 
+    public PageReturnValue(IPage<T> data) {
+        this.rows = data.getRecords();
+        this.total = data.getTotal();
+    }
+
     public static PageReturnValue empty(){
-        return new PageReturnValue(new ArrayList<>(),0);
+        return new PageReturnValue(new ArrayList<>(),0L);
     }
 }

@@ -1,8 +1,7 @@
 package com.franklions.example.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
-
-import javax.persistence.Column;
 
 /**
  * @author flsh
@@ -26,13 +25,13 @@ public class BaseEntity {
     /**
      * 创建时间
      */
-    @Column(name = "gmt_created")
+    @TableField(value = "gmt_created")
     private Long gmtCreated;
 
     /**
      * 修改时间
      */
-    @Column(name = "gmt_modified")
+    @TableField(value = "gmt_modified")
     private Long gmtModified;
 
     /**

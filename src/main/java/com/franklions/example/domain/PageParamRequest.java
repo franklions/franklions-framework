@@ -13,15 +13,15 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PageParamRequest {
-    private Integer start;
-    private Integer count;
+    private Integer page;
+    private Integer size;
     private String sort;
     private Boolean desc;
     private String  queryStr;
 
-    public PageParamRequest(Integer start, Integer count, String sort, Boolean desc, String queryStr) {
-        this.start = start;
-        this.count = count;
+    public PageParamRequest(Integer page, Integer size, String sort, Boolean desc, String queryStr) {
+        this.page = page;
+        this.size = size;
         this.sort = sort;
         this.desc = desc;
         this.queryStr = queryStr;
