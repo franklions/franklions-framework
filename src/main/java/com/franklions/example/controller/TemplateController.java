@@ -1,5 +1,6 @@
 package com.franklions.example.controller;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.franklions.example.domain.PageParamRequest;
 import com.franklions.example.domain.PageReturnValue;
@@ -66,6 +67,7 @@ public class TemplateController extends BaseController{
         return success();
     }
 
+    @DS("guns")
     @GetMapping("/{id}/get")
     public ResponseResult loadOne(@PathVariable("id") String id){
         TemplateEntity entity = service.getById(id);
@@ -77,6 +79,7 @@ public class TemplateController extends BaseController{
         return success(entity);
     }
 
+    @DS("guns")
     @GetMapping("/list")
     public ResponseResult loadTemplateList(){
         List<TemplateEntity> list =service.list();
