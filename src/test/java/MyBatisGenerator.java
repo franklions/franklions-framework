@@ -37,8 +37,8 @@ public class MyBatisGenerator {
         tables.add("sys_user_post");
         tables.add("sys_user_role");
 
-
-        FastAutoGenerator.create("jdbc:mysql://127.0.0.1:13306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false","root","root123456")
+        String url = "jdbc:mysql://127.0.0.1:13306/ry-cloud?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false";
+        FastAutoGenerator.create(url,"root","root123456")
                 .globalConfig(builder -> {
                     builder.author("flsh")               //作者
                             .outputDir(System.getProperty("user.dir")+"/src/test/java")    //输出路径(写到java目录)
