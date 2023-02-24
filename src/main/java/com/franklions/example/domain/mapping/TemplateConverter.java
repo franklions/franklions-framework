@@ -18,7 +18,7 @@ public interface TemplateConverter {
     TemplateConverter INSTANCE = Mappers.getMapper(TemplateConverter.class);
 
     @Mappings({
-            @Mapping(target = "status",expression = "java(Integer.valueOf(request.getStatus()))")
+            @Mapping(target = "status",expression = "java(request.getStatus() ==null?0:Integer.valueOf(request.getStatus()))")
     })
     TemplateEntity req2entity(TemplateRequest request);
 }
