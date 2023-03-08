@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /v0/api
+spring:
+  application:
+    name: dayi-smart-monitor-api
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    jedis:
+      pool:
+        max-active: 50
+        max-wait: 3000
+        max-idle: 20
+        min-idle: 2
+    timeout: 5000
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/guns?useSSL=false&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+    password: root123456
+    hikari:
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 30
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+logging:
+  level: info
+  config: classpath:pro/log4j2.xml
+dayi:
+  monitor:
+    api:
+      ignoredUrls: /v0/api/login
