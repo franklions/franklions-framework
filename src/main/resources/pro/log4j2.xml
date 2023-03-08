@@ -30,7 +30,7 @@
         <RollingFile name="RollingFile" fileName="${LOG_FULL_PATH}" filePattern="${FILE_PATTERN}">
             <PatternLayout pattern="${ROLLING_PATTERN}" />
             <Policies>
-                <SizeBasedTriggeringPolicy size="4MB" />
+                <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
@@ -38,7 +38,7 @@
         <RollingFile name="HttpAccessRollingFile" fileName="${HTTP_LOG_FULL_PATH}" filePattern="${HTTP_FILE_PATTERN}">
             <PatternLayout pattern="${HTTP_ROLLING_PATTERN}" />
             <Policies>
-                <SizeBasedTriggeringPolicy size="4MB" />
+                <SizeBasedTriggeringPolicy size="10MB" />
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
