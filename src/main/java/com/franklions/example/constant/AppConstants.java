@@ -6,7 +6,7 @@ package com.franklions.example.constant;
  * @date 2020/9/14
  * @since Jdk 1.8
  */
-public class Constants {
+public class AppConstants {
     public static final boolean SUCCESS = true;
     public static final String DELETED ="deleted";
     public static final String DISABLED ="disabled";
