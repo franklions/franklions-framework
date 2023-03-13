@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.franklions.example.domain.entity.TemplateEntity;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Collection;
+
 /**
  * @author flsh
  * @version 1.0
@@ -12,4 +14,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface TemplateMapper extends BaseMapper<TemplateEntity> {
+    /**
+     * 批量插入（mysql）
+     * @param entityList
+     * @return
+     */
+    Integer insertBatchSomeColumn(Collection<TemplateEntity> entityList);
 }
