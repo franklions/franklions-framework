@@ -3,6 +3,7 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.franklions.example.domain.entity.BaseEntity;
+import com.franklions.example.mapper.CommonMapper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,7 +77,7 @@ public class MyBatisGenerator {
                             .mapperBuilder()
                             //生成通用的resultMap
                             .enableBaseResultMap()
-//                            .superClass(BaseMapper.class)
+                            .superClass(CommonMapper.class)
                             .formatMapperFileName("%sMapper")
                             .enableMapperAnnotation()
                             .formatXmlFileName("%sMapper");

@@ -31,14 +31,14 @@ public class HttpLogFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        //上传文件不记录日志
+        if (ServletUtil.isMultiPartRequest(request)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         RequestWrapper requestWrapper = new RequestWrapper(request);
         ResponseWrapper responseWrapper = new ResponseWrapper(response);
-        String reqBody;
-        if (ServletUtil.isMultiPartRequest(request)) {
-            reqBody = "MULTIPART";
-        } else {
-            reqBody = IOUtils.toString(requestWrapper.getBody(), request.getCharacterEncoding());
-        }
+        String reqBody = IOUtils.toString(requestWrapper.getBody(), request.getCharacterEncoding());
 
         String api = ServletUtil.getApi(request, this.properties.getContextPath());
         String token = ServletUtil.getToken(request, "");
