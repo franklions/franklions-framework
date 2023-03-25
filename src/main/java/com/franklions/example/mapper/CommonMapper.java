@@ -18,4 +18,18 @@ public interface CommonMapper<T> extends BaseMapper<T> {
      */
     int insertBatchSomeColumn(List<T> entityList);
 
+    /**
+     * 插入并更新
+     * @param entity
+     * @return
+     */
+    int insertAndAppend(T entity);
+
+    /**
+     * 批量插入并更新
+     * @param entityList
+     * @return
+     */
+    int batchInsertAndAppend(List<T> entityList);
+
 }

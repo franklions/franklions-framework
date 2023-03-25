@@ -365,6 +365,23 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8 COMMENT='管理员表';
 
+CREATE TABLE tb_template_info  (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+   `status` int(11) NULL DEFAULT NULL,
+   `template_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+   `version` int(11) NULL DEFAULT NULL,
+   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
+   `disabled` bit(1) NULL DEFAULT NULL,
+   `gmt_created` bigint(20) NULL DEFAULT NULL,
+   `gmt_modified` bigint(20) NULL DEFAULT NULL,
+   `deleted` bit(1) NULL DEFAULT NULL,
+   `ts` bigint(20) NULL DEFAULT NULL,
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+
+
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------

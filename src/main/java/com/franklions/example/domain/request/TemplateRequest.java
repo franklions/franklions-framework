@@ -15,6 +15,9 @@ import javax.validation.constraints.Size;
  */
 @Data
 public class TemplateRequest {
+
+    private String templateId;
+
     @NotBlank(message = "名称不能为空")
     @Size(min = 1, max = 200, message = "名称不能超过200个字符")
     private String name;

@@ -20,7 +20,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author flsh
@@ -85,5 +87,30 @@ public class TemplateServiceImpl extends ServiceImpl<TemplateMapper, TemplateEnt
         IPage<TemplateEntity> data = getBaseMapper().selectPage(page,queryWrapper);
         PageReturnValue<TemplateEntity> retval = new PageReturnValue<>(data);
         return retval;
+    }
+
+    @Override
+    public void saveBatch(List<TemplateRequest> requests) {
+        List<TemplateEntity> collect = requests.stream().map(r -> convertEntity(r)).collect(Collectors.toList());
+        getBaseMapper().insertBatchSomeColumn(collect);
+    }
+
+    @Override
+    public void saveAndUpdateTemplate(TemplateRequest request) {
+        TemplateEntity entity = converter.req2entity(request);
+        entity.initDefaultValue();
+        getBaseMapper().insertAndAppend(entity);
+    }
+
+    @Override
+    public void batchSaveAndUpdate(List<TemplateRequest> requests) {
+        List<TemplateEntity> collect = requests.stream().map(r -> convertEntity(r)).collect(Collectors.toList());
+        getBaseMapper().batchInsertAndAppend(collect);
+    }
+
+    private TemplateEntity convertEntity(TemplateRequest request) {
+        TemplateEntity entity = converter.req2entity(request);
+        entity.initDefaultValue();
+        return entity;
     }
 }

@@ -21,8 +21,11 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Path;
 import javax.validation.ValidationException;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 全局异常处理
@@ -128,7 +131,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
             if(result.getFieldErrors() != null && result.getFieldErrors().size() > 0){
                 StringBuilder sbErr = new StringBuilder();
                 for(FieldError error : result.getFieldErrors()){
-                    sbErr.append(String.format("%s:%s", error.getField(), error.getDefaultMessage()));
+                    sbErr.append(String.format("%s:%s, ", error.getField(), error.getDefaultMessage()));
                 }
                 return new ResponseResult(new ErrorResult(Integer.valueOf(ErrorCode.PARAMETER_VALID_ERROR[0].toString()),sbErr.toString()));
             }
@@ -151,7 +154,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
         FieldError error = result.getFieldError();
         String field = error.getField();
         String code = error.getDefaultMessage();
-        String message = String.format("%s:%s", field, code);
+        String message = String.format("%s:%s, ", field, code);
         return new ResponseResult(new ErrorResult(400001,message));
     }
 
@@ -164,9 +167,17 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
     public ResponseResult handleServiceException(ConstraintViolationException e) {
         logger.warn("参数验证失败", e);
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        ConstraintViolation<?> violation = violations.iterator().next();
-        String message = violation.getMessage();
-        return new ResponseResult(new ErrorResult(400000,"parameter:" + message));
+        StringBuilder message = new StringBuilder();
+        violations.forEach((violation)->{
+            String nodeName = "";
+            Iterator<Path.Node> iterator = violation.getPropertyPath().iterator();
+            while (iterator.hasNext()){
+                nodeName = iterator.next().getName();
+            }
+
+            message.append(String.format("%s:%s, ",nodeName,violation.getMessage()));
+        });
+        return new ResponseResult(new ErrorResult(400000, message.toString()));
     }
 
     /**

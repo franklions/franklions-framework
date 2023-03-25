@@ -33,6 +33,11 @@ public class TemplateController extends BaseController{
     private TemplateService service;
 
 
+    /**
+     * 创建模板
+     * @param request
+     * @return
+     */
     @PostMapping("/create")
     public ResponseResult createTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
 
@@ -44,6 +49,52 @@ public class TemplateController extends BaseController{
         return  success();
     }
 
+    /**
+     * 创建并更新模板
+     * @param request
+     * @return
+     */
+    @PutMapping("/save")
+    public ResponseResult saveAndUpdateTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
+
+        Optional<TemplateEntity> templateOpt = service.getOneByName(request.getName());
+        if(templateOpt.isPresent()){
+            return fail(ErrorCode.EXIST_RECORD_ERROR);
+        }
+        service.saveAndUpdateTemplate(request);
+        return  success();
+    }
+
+    /**
+     * 批量插入
+     * @param requests
+     * @return
+     */
+    @PostMapping("/batch")
+    public ResponseResult batchCreateTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
+
+        service.saveBatch(requests);
+        return success();
+    }
+
+    /**
+     * 批量插入
+     * @param requests
+     * @return
+     */
+    @PostMapping("/batch/save")
+    public ResponseResult batchSaveTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
+
+        service.batchSaveAndUpdate(requests);
+        return success();
+    }
+
+    /**
+     * 编辑模板
+     * @param id
+     * @param request
+     * @return
+     */
     @PutMapping("/{id}/edit")
     public ResponseResult editTemplate(@PathVariable("id") String id,
                             @RequestBody TemplateRequest request){
@@ -56,6 +107,11 @@ public class TemplateController extends BaseController{
         return success();
     }
 
+    /**
+     * 逻辑删除模板
+     * @param id
+     * @return
+     */
     @DeleteMapping("/{id}/remove")
     public ResponseResult removeTemplate(@PathVariable("id") String id){
         //查询该数据是否存在
@@ -66,6 +122,11 @@ public class TemplateController extends BaseController{
         return success();
     }
 
+    /**
+     * 获取模板信息
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}/get")
     public ResponseResult loadOne(@PathVariable("id") String id){
         TemplateEntity entity = service.getById(id);
@@ -77,6 +138,10 @@ public class TemplateController extends BaseController{
         return success(entity);
     }
 
+    /**
+     * 获取列表信息
+     * @return
+     */
     @GetMapping("/list")
     public ResponseResult loadTemplateList(){
         List<TemplateEntity> list =service.list();
@@ -86,6 +151,16 @@ public class TemplateController extends BaseController{
         return success(list);
     }
 
+    /**
+     * 分页查询
+     * @param pageNum
+     * @param pageSize
+     * @param sort
+     * @param desc
+     * @param query
+     * @return
+     * @throws JsonProcessingException
+     */
     @GetMapping("/page")
     public ResponseResult loadTemplatePage(@RequestParam(value = "page",required = false,defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "size",required = false,defaultValue = "10") Integer pageSize,

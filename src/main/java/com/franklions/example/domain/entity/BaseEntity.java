@@ -1,6 +1,7 @@
 package com.franklions.example.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.franklions.example.injector.annotation.UpdateField;
 import lombok.Data;
 
 /**
@@ -31,6 +32,7 @@ public class BaseEntity {
     /**
      * 修改时间
      */
+    @UpdateField("gmt_modified")
     @TableField(value = "gmt_modified")
     private Long gmtModified;
 

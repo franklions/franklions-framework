@@ -8,6 +8,7 @@ import com.franklions.example.domain.dto.TemplateDTO;
 import com.franklions.example.domain.entity.TemplateEntity;
 import com.franklions.example.domain.request.TemplateRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,4 +28,10 @@ public interface TemplateService extends IService<TemplateEntity> {
     boolean removeTemplate(TemplateEntity entity);
 
     PageReturnValue<TemplateEntity> listTemplatePage(PageParamRequest request) throws JsonProcessingException;
+
+    void saveBatch(List<TemplateRequest> requests);
+
+    void saveAndUpdateTemplate(TemplateRequest request);
+
+    void batchSaveAndUpdate(List<TemplateRequest> requests);
 }

@@ -1,6 +1,7 @@
 package com.franklions.example.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.franklions.example.injector.annotation.UpdateField;
 import lombok.Data;
 
 /**
@@ -19,12 +20,15 @@ public class TemplateEntity extends BaseEntity {
     @TableField("template_id")
     private String templateId;
 
+    @UpdateField("name")
     @TableField("name")
     private String name;
 
+    @UpdateField("status")
     @TableField("status")
     private Integer status;
 
+    @UpdateField("dict_type")
     @TableField("dict_type")
     private String dictType;
 

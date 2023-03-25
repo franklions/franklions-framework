@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.extension.injector.methods.AlwaysUpdateSomeColumnById;
 import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 import com.baomidou.mybatisplus.extension.injector.methods.Upsert;
+import com.franklions.example.injector.methods.BatchInsertAndAppend;
+import com.franklions.example.injector.methods.InsertAndAppend;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ public class MapperSqlInjector extends DefaultSqlInjector {
         List<AbstractMethod> methodList = super.getMethodList(mapperClass,tableInfo);
         // 添加InsertBatchSomeColumn方法 真实批量插入，通过单SQL的insert语句实现批量插入；
         methodList.add(new InsertBatchSomeColumn(t -> t.getFieldFill() != FieldFill.UPDATE));
-
+        methodList.add(new InsertAndAppend());
+        methodList.add(new BatchInsertAndAppend());
         return methodList;
     }
 }

@@ -2,6 +2,13 @@ server:
   port: 10080
   servlet:
     context-path: /v0/api
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 spring:
   application:
     name: dayi-smart-monitor-api
@@ -45,4 +52,11 @@ logging:
 dayi:
   monitor:
     api:
-      ignoredUrls: /v0/api/login
+      tokenExpired: 86400
+      ignoredUrls:
+        - /v0/api/account/login
+        - /v0/api/token/refresh
+        - /v0/api/enterprise/domain
+        - /v0/api/manage/account/login
+        - /v0/api/rest/pwd/captcha/*
+        - /v0/api/employee/batch/template
