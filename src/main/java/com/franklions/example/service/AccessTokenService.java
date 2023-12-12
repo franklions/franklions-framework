@@ -1,5 +1,7 @@
 package com.franklions.example.service;
 
+import com.franklions.example.domain.dto.LoginInfo;
+
 /**
  * @author flsh
  * @version 1.0
@@ -7,4 +9,5 @@ package com.franklions.example.service;
  * @since Jdk 1.8
  */
 public interface AccessTokenService {
+    LoginInfo getLoginInfo();
 }

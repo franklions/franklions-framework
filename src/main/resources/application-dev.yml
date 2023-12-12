@@ -49,6 +49,8 @@ logging:
             api:
               mapper: debug
   config: classpath:dev/log4j2.xml
+permission:
+  package-path: com.franklions.example.mapper
 dayi:
   monitor:
     api:

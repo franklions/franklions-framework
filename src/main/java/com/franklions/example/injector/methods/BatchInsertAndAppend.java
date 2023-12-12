@@ -106,10 +106,17 @@ public class BatchInsertAndAppend extends AbstractMethod {
         String updateScript = fields.stream().filter(field -> {
             /* 过滤注解非表字段属性 */
             UpdateField updateField = field.getAnnotation(UpdateField.class);
-            return (updateField != null && org.apache.commons.lang3.StringUtils.isNotBlank(updateField.value()));
+            return (updateField != null );
         }).map(field -> {
             UpdateField updateField = field.getAnnotation(UpdateField.class);
-            return String.format("%s=VALUES(%s)", updateField.value(),updateField.value());
+            String fieldValue = "";
+
+            if(org.apache.commons.lang3.StringUtils.isNotBlank(updateField.value())) {
+                fieldValue = updateField.value();
+            }else{
+                fieldValue =  field.getName();
+            }
+            return String.format("%s=VALUES(%s)", fieldValue, fieldValue);
         }).collect(Collectors.joining(","));
 
         if(org.apache.commons.lang3.StringUtils.isBlank(updateScript)){
