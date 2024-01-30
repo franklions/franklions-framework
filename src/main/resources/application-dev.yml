@@ -9,9 +9,11 @@ server:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+health:
+  enabled: true
 spring:
   application:
-    name: dayi-smart-monitor-api
+    name: franklions-framework
   redis:
     host: 127.0.0.1
     port: 6379

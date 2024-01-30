@@ -131,7 +131,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
             if(result.getFieldErrors() != null && result.getFieldErrors().size() > 0){
                 StringBuilder sbErr = new StringBuilder();
                 for(FieldError error : result.getFieldErrors()){
-                    sbErr.append(String.format("%s:%s, ", error.getField(), error.getDefaultMessage()));
+                    sbErr.append(error.getDefaultMessage());
                 }
                 return new ResponseResult(new ErrorResult(Integer.valueOf(ErrorCode.PARAMETER_VALID_ERROR[0].toString()),sbErr.toString()));
             }
@@ -153,8 +153,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
         BindingResult result = e.getBindingResult();
         FieldError error = result.getFieldError();
         String field = error.getField();
-        String code = error.getDefaultMessage();
-        String message = String.format("%s:%s, ", field, code);
+        String message = error.getDefaultMessage();
         return new ResponseResult(new ErrorResult(400001,message));
     }
 
@@ -175,7 +174,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
                 nodeName = iterator.next().getName();
             }
 
-            message.append(String.format("%s:%s, ",nodeName,violation.getMessage()));
+            message.append(violation.getMessage());
         });
         return new ResponseResult(new ErrorResult(400000, message.toString()));
     }

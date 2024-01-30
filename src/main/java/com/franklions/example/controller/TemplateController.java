@@ -8,6 +8,8 @@ import com.franklions.example.domain.entity.TemplateEntity;
 import com.franklions.example.domain.request.TemplateRequest;
 import com.franklions.example.exception.ErrorCode;
 import com.franklions.example.service.TemplateService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,7 @@ import java.util.Optional;
  * @date 2020/10/21
  * @since Jdk 1.8
  */
+@Api(tags = "编程模板模块")
 @Validated
 @RestController
 @RequestMapping("/template")
@@ -38,6 +41,7 @@ public class TemplateController extends BaseController{
      * @param request
      * @return
      */
+    @ApiOperation(value = "创建模板")
     @PostMapping("/create")
     public ResponseResult createTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
 
@@ -128,7 +132,7 @@ public class TemplateController extends BaseController{
      * @return
      */
     @GetMapping("/{id}/get")
-    public ResponseResult loadOne(@PathVariable("id") String id){
+    public ResponseResult<TemplateEntity> loadOne(@PathVariable("id") String id){
         TemplateEntity entity = service.getById(id);
         if (entity == null){
             return fail (ErrorCode.NO_FOUND_RECORD_ERROR);
