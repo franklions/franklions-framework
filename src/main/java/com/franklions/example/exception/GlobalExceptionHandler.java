@@ -1,6 +1,7 @@
 package com.franklions.example.exception;
 
 import com.franklions.example.domain.ResponseResult;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,12 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Path;
 import javax.validation.ValidationException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 /**
  * 全局异常处理
@@ -63,16 +67,16 @@ public class GlobalExceptionHandler {
 //        logger.error("操作数据库出现异常:", e);
 //        return new ErrorResult(500,"操作数据库出现异常：字段重复、有外键关联等");
 //    }
-/**
- * RPC框架返回结果
- * 当使用RPC返回结果时开启下面的注解 上面跟下面只保留一个即可
- */
-@ResponseStatus(HttpStatus.OK)
-@ExceptionHandler(NoHandlerFoundException.class)
-public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
-    logger.warn("非法的访问路径(404)", e);
-    return new ResponseResult(new ErrorResult(400404,"非法的访问路径"));
-}
+    /**
+     * RPC框架返回结果
+     * 当使用RPC返回结果时开启下面的注解 上面跟下面只保留一个即可
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
+        logger.warn("非法的访问路径(404)", e);
+        return new ResponseResult(new ErrorResult(400404,"非法的访问路径"));
+    }
 
 
     /**
@@ -129,11 +133,8 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
         BindingResult result = e.getBindingResult();
         if(result.hasErrors()){
             if(result.getFieldErrors() != null && result.getFieldErrors().size() > 0){
-                StringBuilder sbErr = new StringBuilder();
-                for(FieldError error : result.getFieldErrors()){
-                    sbErr.append(error.getDefaultMessage());
-                }
-                return new ResponseResult(new ErrorResult(Integer.valueOf(ErrorCode.PARAMETER_VALID_ERROR[0].toString()),sbErr.toString()));
+                List<String> errors = result.getFieldErrors().stream().map(t->t.getDefaultMessage()).collect(Collectors.toList());
+                return new ResponseResult(new ErrorResult(Integer.valueOf(ErrorCode.PARAMETER_VALID_ERROR[0].toString()),String.join(",",errors)));
             }
         }
 
@@ -154,6 +155,7 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
         FieldError error = result.getFieldError();
         String field = error.getField();
         String message = error.getDefaultMessage();
+
         return new ResponseResult(new ErrorResult(400001,message));
     }
 
@@ -166,17 +168,18 @@ public ResponseResult handleNoHandlerFoundException(NoHandlerFoundException e){
     public ResponseResult handleServiceException(ConstraintViolationException e) {
         logger.warn("参数验证失败", e);
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        StringBuilder message = new StringBuilder();
+        List<String> errMessage = new ArrayList<>();
         violations.forEach((violation)->{
             String nodeName = "";
             Iterator<Path.Node> iterator = violation.getPropertyPath().iterator();
             while (iterator.hasNext()){
                 nodeName = iterator.next().getName();
             }
-
-            message.append(violation.getMessage());
+            if(StringUtils.isNotBlank(violation.getMessage())) {
+                errMessage.add(violation.getMessage());
+            }
         });
-        return new ResponseResult(new ErrorResult(400000, message.toString()));
+        return new ResponseResult(new ErrorResult(400000, String.join(",",errMessage)));
     }
 
     /**
