@@ -4,7 +4,7 @@ server:
     context-path: /v0/api
 spring:
   application:
-    name: dayi-smart-monitor-api
+    name: franklions-framework
   redis:
     host: 127.0.0.1
     port: 6379
