@@ -5,11 +5,11 @@ knife4j:
   enable: true
   documents:
     -
-      group: 2.X版本
+      group: 1.X版本
       name: 自定义文档
       locations: classpath:markdown/*
     -
-      group: 2.X版本
+      group: 1.X版本
       name: 接口签名
       locations: classpath:sign/*
   setting:
@@ -22,22 +22,22 @@ knife4j:
     enableAfterScript: true
     enableFilterMultipartApiMethodType: POST
     enableFilterMultipartApis: true
-    enableRequestCache: true
+    enableRequestCache: false
     enableHost: false
     enableHostText: 192.168.0.193:8000
     enableHomeCustom: true
     homeCustomLocation: classpath:markdown/home.md
-    enableSearch: false
+    enableSearch: true
     enableFooter: true
     enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright  2019-[浙江八一菜刀股份有限公司](https://gitee.com/xiaoym/knife4j)
-    enableDynamicParameter: true
+    footerCustomContent: Apache License 2.0 | Copyright  2019-[天津联物科技有限公司](www.lianwukeji.com)
+    enableDynamicParameter: false
     enableDebug: true
-    enableOpenApi: false
+    enableOpenApi: true
     enableGroup: true
   cors: false
   production: false
   basic:
-    enable: false
+    enable: true
     username: test
     password: 12313

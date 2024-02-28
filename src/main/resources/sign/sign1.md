@@ -1,11 +1,13 @@
-# POST请求签名说明
+# 接口签名说明
 
-POST---knife4j为了满足文档的个性化配置,添加了自定义文档功能
+```
+    token+空格+base64({uid}:{token})
+```
 
-开发者可自定义md文件扩展补充整个系统的文档说明
+> **注： <code>uid</code> 和 <code>token</code> 在通过登录接口获取**
 
-开发者可以在当前项目中添加一个文件夹，文件夹中存放.md格式的markdown文件,每个.md文档代表一份自定义文档说明
-
-注意：自定义文档说明必须以.md结尾的文件,其他格式文件会被忽略
-
-例如项目结构如下：
+| 参数名                 |类型|必填|参数位置|描述|默认值|
+|---------------------|---|---|---|---|---|
+| x-dayi-saas-clientId |string|是|header|客户端|无|
+| x-dayi-saas-eid     |string|是|header|企业ID|无|
+| x-Authorization     |string|是|header|认证字符串|无|

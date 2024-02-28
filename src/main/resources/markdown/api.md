@@ -1,95 +1,78 @@
-# 自定义文档说明
+# XX系统协议总纲
 
-## 效果说明
+## 协议总体说明
 
-在`1.9.3`版本中,`swagger-bootstrap-ui`为了满足文档的个性化配置,添加了自定义文档功能
+1. 使用HTTPS作为数据传输协议，版本为1.1
+2. 使用UTF-8作为所有文本数据的编码格式
+3. 使用JSON作为数据传输格式，HTTP Header中的Content-Type为application/json 如有特殊 则单独说明
+4. 接口使用restful风格设计,请求方式Method仅限四种：POST（插入），PUT（更新），GET（获取），DELETE（删除），针对不同的语义使用不同的Method.
 
-开发者可自定义`md`文件扩展补充整个系统的文档说明
-
-开发者可以在当前项目中添加一个文件夹，文件夹中存放`.md`格式的markdown文件,每个`.md`文档代表一份自定义文档说明
-
-**注意**：自定义文档说明必须以`.md`结尾的文件,其他格式文件会被忽略
-
-例如项目结构如下：
-
-![](/images/1-9-3/construct.png)
-
-每个`.md`文件中，`swagger-bootstrap-ui`允许一级(h1)、二级(h2)、三级(h3)标题作为最终的文档标题
-
-比如`api.md`文档：
-
-```markdown
-## 获取用户列表
-
-access_token是公众号的全局唯一接口调用凭据，公众号调用各接口时都需使用access_token。开发者需要进行妥善保存。access_token的存储至少要保留512个字符空间。access_token的有效期目前为2个小时，需定时刷新，重复获取将导致上次获取的access_token失效
+## 接口访问认证
 
 ```
-
-最终在`swagger-bootstrap-ui`的界面中,`api.md`的文档标题会是`获取用户列表`
-
-整个文档效果如下：
-
-![](/images/1-9-3/ef.png)
-
-如果没有按照一级(h1)、二级(h2)、三级(h3)来设置标题,默认标题会是文件名称，如图上的`api2.md`
-
-## 如何使用
-
-### Spring Boot环境
-
-在SpringBoot环境中,首先需要在`application.yml`或者`application.properties`配置文件中配置自定义文档目录
-
-如下：
-
-```yml
-swagger:
-  markdowns: classpath:markdown/*
+    token+空格+base64({uid}:{token})
 ```
 
-然后在Swagger的配置文件中启用`@EnableSwaggerBootstrapUi`注解
+> **注： <code>uid</code> 和 <code>token</code> 在通过登录接口获取**
 
-如下代码：
-
-```java
-@Configuration
-@EnableSwagger2
-@EnableSwaggerBootstrapUI
-public class SwaggerConfiguration {
-    //more...
-    
-}
-```
-
-除了在后端开启注解功能,在`doc.html`中,个性化配置里面还需要设置开启增强功能
-
-![](/images/1-9-3/en-fun.png)
-
-当然,在确保后端增强无误的情况下,你可以直接使用快速访问设置功能来直接启用增强
-
-地址输入：`http://127.0.0.1:8888/doc.html?plus=1`
+| 参数名                 |类型|必填|参数位置|描述|默认值|
+|---------------------|---|---|---|---|---|
+| x-dayi-saas-clientId |string|是|header|客户端|无|
+| x-dayi-saas-eid     |string|是|header|企业ID|无|
+| x-Authorization     |string|是|header|认证字符串|无|
 
 
+## 公共错误码
 
-### Spring MVC环境
+错误码（Error Code） | 错误消息（Error Message） | 描述（Description）
+---|---|---
+400001 | PARAMETER_VALID_ERROR | 参数验证失败
+400002 | NO_FOUND_RECORD | 未找到相关记录
+400003 | EXIST_RECORD_ERROR | 相关记录已经存在
+401004 | USER_UNAUTHORIZED | 用户未授权
+401005 | USER_TOKEN_EXPIRE | 用户TOKEN过期
+500001 | SERVER_ERROR | 服务器内部错误
+400006 | DEVICE_NOT_EXIST  | 设备不存在
+400007 | DEVICE_OFFLINE  | 设备不在线
 
-在Spring MVC环境中,首先引入swagger-bootstrap-ui的jar包文件
+## 返回结果
+本服务的所有接口返回的http status code都为200,如果不为200时可能由服务器返回的结果，而不是由服务程序返回的。
 
-```xml
-<dependency>
-  <groupId>com.github.xiaoymin</groupId>
-  <artifactId>swagger-bootstrap-ui</artifactId>
-  <version>1.9.3</version>
-</dependency>
-```
-然后,需要在Spring的XML配置文件中注入`MarkdownFiles`类的实例bean
+| 参数名         |类型|说明|
+|-------------|---|---|
+| success     |bool|true 成功 false 失败|
+| errorCode   |number|错误码|
+| errorMessage |string|错误信息|
+| data        | json object|返回的数据内容|
+| ts          |number|时间戳|
 
-如下：
+## 分页查询请求参数
 
-```xml
-<!--注入自定义文档的bean-->
-<bean id="markdownFiles" class="io.swagger.models.MarkdownFiles" init-method="init">
-    <property name="basePath" value="classpath:markdown/*"></property>
-</bean>
-```
+>query为查询条件，根据具体查询条件不同进行拼接查询
 
-其他例如开启增强等操作和Spring Boot环境无异,打开doc.html即可访问看到效果
+
+| 参数名   |参数类型|默认值|说明|
+|-------|---|---|---|
+| page  |number|1|页码|
+| size  |number|10|显示条数|
+| sort  |string|资源ID|排序字段|
+| desc  |bool|false|true：倒序，false：正序|
+| query |query string|无|具体的查询条件|
+
+query查询和件内容为json字符串，key为查询的字段value为查询的值，使用时注意需要对该字段内容进行urlencode.
+
+## 分页查询返回结果
+
+下面结果包含在返回结果的data字段中.
+
+| 参数名   |类型|说明|
+|-------|---|---|
+| rows  |array json object |数据集|
+| total |number|总数量|
+
+> 查询结果为集合，类似查询结果均为集合后续不再特别说明
+
+
+## 访问地址
+
+    https://127.0.0.1:10080/v0/api

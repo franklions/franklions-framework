@@ -2,6 +2,7 @@ package com.franklions.example.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.franklions.example.injector.annotation.UpdateField;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -16,22 +17,26 @@ public class BaseEntity {
     /**
      * 描述
      */
+    @ApiModelProperty(value = "备注")
     private String remark;
 
     /**
      * 禁用
      */
+    @ApiModelProperty(value = "禁用")
     private Boolean disabled;
 
     /**
      * 创建时间
      */
+    @ApiModelProperty(value = "创建时间")
     @TableField(value = "gmt_created")
     private Long gmtCreated;
 
     /**
      * 修改时间
      */
+    @ApiModelProperty(value = "修改时间")
     @UpdateField("gmt_modified")
     @TableField(value = "gmt_modified")
     private Long gmtModified;
@@ -39,11 +44,13 @@ public class BaseEntity {
     /**
      * 删除
      */
+    @ApiModelProperty(value = "逻辑删除")
     private Boolean deleted;
 
     /**
      * 时间戳
      */
+    @ApiModelProperty(value = "数据时间戳")
     private Long ts;
 
     /**

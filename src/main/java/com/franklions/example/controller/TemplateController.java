@@ -9,6 +9,8 @@ import com.franklions.example.domain.request.TemplateRequest;
 import com.franklions.example.exception.ErrorCode;
 import com.franklions.example.service.TemplateService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**访问控制权限
+/**
+ * 编程模板模块
  * @author flsh
  * @version 1.0
  * @date 2020/10/21
@@ -58,6 +61,7 @@ public class TemplateController extends BaseController{
      * @param request
      * @return
      */
+    @ApiOperation(value = "创建并更新模板")
     @PutMapping("/save")
     public ResponseResult saveAndUpdateTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
 
@@ -74,6 +78,7 @@ public class TemplateController extends BaseController{
      * @param requests
      * @return
      */
+    @ApiOperation(value = "批量插入")
     @PostMapping("/batch")
     public ResponseResult batchCreateTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
 
@@ -86,6 +91,7 @@ public class TemplateController extends BaseController{
      * @param requests
      * @return
      */
+    @ApiOperation(value = "批量插入并更新")
     @PostMapping("/batch/save")
     public ResponseResult batchSaveTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
 
@@ -99,6 +105,10 @@ public class TemplateController extends BaseController{
      * @param request
      * @return
      */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "记录ID")
+    })
+    @ApiOperation(value = "编辑模板")
     @PutMapping("/{id}/edit")
     public ResponseResult editTemplate(@PathVariable("id") String id,
                             @RequestBody TemplateRequest request){
@@ -116,6 +126,10 @@ public class TemplateController extends BaseController{
      * @param id
      * @return
      */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "记录ID")
+    })
+    @ApiOperation(value = "逻辑删除模板")
     @DeleteMapping("/{id}/remove")
     public ResponseResult removeTemplate(@PathVariable("id") String id){
         //查询该数据是否存在
@@ -131,6 +145,10 @@ public class TemplateController extends BaseController{
      * @param id
      * @return
      */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "记录ID")
+    })
+    @ApiOperation(value = "获取模板信息")
     @GetMapping("/{id}/get")
     public ResponseResult<TemplateEntity> loadOne(@PathVariable("id") String id){
         TemplateEntity entity = service.getById(id);
@@ -146,8 +164,9 @@ public class TemplateController extends BaseController{
      * 获取列表信息
      * @return
      */
+    @ApiOperation(value = "列表查询")
     @GetMapping("/list")
-    public ResponseResult loadTemplateList(){
+    public ResponseResult<List<TemplateEntity>> loadTemplateList(){
         List<TemplateEntity> list =service.list();
         if (list==null||list.size()<1){
             list = new ArrayList<>();
@@ -165,8 +184,16 @@ public class TemplateController extends BaseController{
      * @return
      * @throws JsonProcessingException
      */
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page",value = "页码",example = "1",defaultValue = "1"),
+            @ApiImplicitParam(name = "size",value = "显示条数",example = "10",defaultValue = "10"),
+            @ApiImplicitParam(name = "sort",value = "排序字段",example = "id",defaultValue = "id"),
+            @ApiImplicitParam(name = "desc",value = "是否倒序",example = "false",defaultValue = "false"),
+            @ApiImplicitParam(name = "query",value = "查询条件")
+    })
+    @ApiOperation(value = "分页查询")
     @GetMapping("/page")
-    public ResponseResult loadTemplatePage(@RequestParam(value = "page",required = false,defaultValue = "1") Integer pageNum,
+    public ResponseResult<PageReturnValue<TemplateEntity>> loadTemplatePage(@RequestParam(value = "page",required = false,defaultValue = "1") Integer pageNum,
                                            @RequestParam(value = "size",required = false,defaultValue = "10") Integer pageSize,
                                            @RequestParam(value = "sort",required = false,defaultValue = "id") String sort,
                                            @RequestParam(value = "desc",required = false,defaultValue = "false") Boolean desc,
