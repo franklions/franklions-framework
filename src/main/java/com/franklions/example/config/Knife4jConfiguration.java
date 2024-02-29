@@ -101,9 +101,10 @@ public class Knife4jConfiguration {
         List<ResponseMessage> responseMessageList = new ArrayList<>();
         responseMessageList.add(new ResponseMessageBuilder().code(200).message("请求成功").build());
 //        responseMessageList.add(new ResponseMessageBuilder().code(201).message("Created").build());
-//        responseMessageList.add(new ResponseMessageBuilder().code(401).message("Unauthorized").build());
-//        responseMessageList.add(new ResponseMessageBuilder().code(403).message("Forbidden").build());
-//        responseMessageList.add(new ResponseMessageBuilder().code(404).message("Not Found").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(400).message("请求参数错误").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(401).message("验证未通过").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(403).message("禁用").build());
+        responseMessageList.add(new ResponseMessageBuilder().code(404).message("资源未找到").build());
         responseMessageList.add(new ResponseMessageBuilder().code(500).message("内部服务器错误").build());
         return responseMessageList;
     }
