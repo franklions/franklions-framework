@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.UnsatisfiedServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -85,6 +86,16 @@ public class GlobalExceptionHandler {
         return new ErrorResult(400000,"缺少请求参数");
     }
 
+
+    /**
+     * 400 - Bad Request
+     */
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ErrorResult handleMissingRequestHeaderException(MissingRequestHeaderException e) {
+        logger.warn("缺少请求头参数", e);
+        return new ErrorResult(400000,"缺少请求头参数");
+    }
 
     /**
      * 400 - Bad Request
