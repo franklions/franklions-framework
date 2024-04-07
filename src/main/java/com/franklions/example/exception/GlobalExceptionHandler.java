@@ -241,6 +241,13 @@ public class GlobalExceptionHandler {
         return new ErrorResult(400415,"不支持当前媒体类型");
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NotPermissionException.class)
+    public ErrorResult handleNotPermissionException(NotPermissionException npe){
+        logger.warn("用户无权访问", npe);
+        return new ErrorResult(401004,"用户未授权");
+    }
+
     /**
      * 500 - Internal Server Error
      */

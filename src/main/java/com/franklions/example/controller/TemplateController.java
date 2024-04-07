@@ -1,6 +1,7 @@
 package com.franklions.example.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.franklions.example.aspect.annotation.RequiresPermissions;
 import com.franklions.example.constant.AppConstants;
 import com.franklions.example.domain.PageParamRequest;
 import com.franklions.example.domain.PageReturnValue;
@@ -146,6 +147,7 @@ public class TemplateController {
      * @param id
      * @return
      */
+    @RequiresPermissions("BASIC_TEMPLATE")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "记录ID")
     })
@@ -165,6 +167,7 @@ public class TemplateController {
      * 获取列表信息
      * @return
      */
+    @RequiresPermissions("BASIC_USER")
     @ApiOperation(value = "列表查询")
     @GetMapping("/list")
     public List<TemplateEntity> loadTemplateList(){
