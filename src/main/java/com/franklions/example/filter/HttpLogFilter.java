@@ -5,6 +5,8 @@ import com.franklions.example.config.AppConfigProperties;
 import com.franklions.example.handler.HttpLogHandler;
 import com.franklions.example.utils.ServletUtil;
 import org.apache.commons.io.IOUtils;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,6 +24,7 @@ import java.io.IOException;
 public class HttpLogFilter extends OncePerRequestFilter {
     private HttpLogHandler httpLogHandler;
     private AppConfigProperties properties;
+    private PathMatcher pathMatcher = new AntPathMatcher();
 
 
     public HttpLogFilter(AppConfigProperties properties) {
@@ -36,11 +39,15 @@ public class HttpLogFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
+        String api = ServletUtil.getApi(request, this.properties.getContextPath());
+        if(matchesIgnoredPatterns(api)){
+            filterChain.doFilter(request, response);
+            return;
+        }
         RequestWrapper requestWrapper = new RequestWrapper(request);
         ResponseWrapper responseWrapper = new ResponseWrapper(response);
         String reqBody = IOUtils.toString(requestWrapper.getBody(), request.getCharacterEncoding());
 
-        String api = ServletUtil.getApi(request, this.properties.getContextPath());
         String token = ServletUtil.getToken(request, "");
         String params = ServletUtil.getParams(request);
         // 记录头部日志需要以"x-"开头
@@ -61,5 +68,20 @@ public class HttpLogFilter extends OncePerRequestFilter {
         } catch (Exception var10) {
             throw new RuntimeException(var10);
         }
+    }
+
+    protected boolean matchesIgnoredPatterns(String path) {
+        if (this.properties.getIgnoredLogUrls() == null) {
+            return false;
+        }
+
+        for (String pattern : this.properties.getIgnoredLogUrls()) {
+            logger.debug("Matching ignored pattern:" + pattern);
+            if (this.pathMatcher.match(pattern, path)) {
+                logger.debug("Path " + path + " matches ignored pattern " + pattern);
+                return true;
+            }
+        }
+        return false;
     }
 }

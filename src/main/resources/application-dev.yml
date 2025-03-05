@@ -64,3 +64,5 @@ dayi:
         - /v0/api/manage/account/login
         - /v0/api/rest/pwd/captcha/*
         - /v0/api/employee/batch/template
+      ignoredLogUrls:
+        - /v0/api/health

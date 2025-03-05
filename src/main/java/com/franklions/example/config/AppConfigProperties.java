@@ -23,6 +23,7 @@ public class AppConfigProperties {
     private Long tokenExpired;
 
     private Set<String> ignoredUrls = new LinkedHashSet<>();
+    private Set<String> ignoredLogUrls = new LinkedHashSet<>();
 
     private String privateKey;
 
