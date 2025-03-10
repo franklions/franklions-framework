@@ -6,7 +6,9 @@ import com.franklions.example.constant.AppConstants;
 import com.franklions.example.domain.PageParamRequest;
 import com.franklions.example.domain.PageReturnValue;
 import com.franklions.example.domain.entity.TemplateEntity;
+import com.franklions.example.domain.request.Create;
 import com.franklions.example.domain.request.TemplateRequest;
+import com.franklions.example.domain.request.Update;
 import com.franklions.example.exception.ControllerValidationException;
 import com.franklions.example.exception.ErrorCode;
 import com.franklions.example.service.TemplateService;
@@ -48,7 +50,7 @@ public class TemplateController {
      */
     @ApiOperation(value = "创建模板")
     @PostMapping("/create")
-    public Boolean createTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
+    public Boolean createTemplate(@RequestBody  @NotNull @Validated({Create.class}) TemplateRequest request){
 
         Optional<TemplateEntity> templateOpt = service.getOneByName(request.getName());
         if(templateOpt.isPresent()){
@@ -65,7 +67,7 @@ public class TemplateController {
      */
     @ApiOperation(value = "创建并更新模板")
     @PutMapping("/save")
-    public Boolean saveAndUpdateTemplate(@RequestBody  @NotNull @Valid TemplateRequest request){
+    public Boolean saveAndUpdateTemplate(@RequestBody  @NotNull @Validated({Create.class}) TemplateRequest request){
 
         Optional<TemplateEntity> templateOpt = service.getOneByName(request.getName());
         if(templateOpt.isPresent()){
@@ -82,7 +84,7 @@ public class TemplateController {
      */
     @ApiOperation(value = "批量插入")
     @PostMapping("/batch")
-    public Boolean batchCreateTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
+    public Boolean batchCreateTemplate(@RequestBody  @NotNull @Validated({Create.class}) List<TemplateRequest> requests){
 
         service.saveBatch(requests);
         return AppConstants.SUCCESS;
@@ -95,7 +97,7 @@ public class TemplateController {
      */
     @ApiOperation(value = "批量插入并更新")
     @PostMapping("/batch/save")
-    public Boolean batchSaveTemplate(@RequestBody  @NotNull @Valid List<TemplateRequest> requests){
+    public Boolean batchSaveTemplate(@RequestBody  @NotNull @Validated({Create.class}) List<TemplateRequest> requests){
 
         service.batchSaveAndUpdate(requests);
         return AppConstants.SUCCESS;
@@ -113,7 +115,7 @@ public class TemplateController {
     @ApiOperation(value = "编辑模板")
     @PutMapping("/{id}/edit")
     public Boolean editTemplate(@PathVariable("id") String id,
-                            @RequestBody TemplateRequest request){
+                            @RequestBody @NotNull @Validated({Update.class}) TemplateRequest request){
         //查询该数据是否存在
         TemplateEntity entity = service.getById(id);
         if (entity == null){
