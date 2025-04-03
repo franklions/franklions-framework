@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +19,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.GenericFilterBean;
+
+import java.util.Collections;
 
 /**
  * @author Administrator
@@ -52,16 +55,31 @@ public class AppConfig {
         return registration;
     }
 
+    /**
+     * Credentials 与通配符冲突
+     * allowCredentials(true) 时，allowedOrigins 不能为 *，需明确指定域名。
+     * @return
+     */
     @Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOrigin("*");
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsFilter(urlBasedCorsConfigurationSource);
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true); // 允许发送凭证（如 Cookie）
+        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // 允许的源
+        config.setAllowedMethods(Collections.singletonList("*")); // 允许所有方法（GET/POST等）
+        config.setAllowedHeaders(Collections.singletonList("*")); // 允许所有请求头
+        config.setExposedHeaders(Collections.singletonList("*")); // 暴露所有响应头
+        config.setMaxAge(3600L); // 预检请求缓存时间（单位：秒）
+
+        // 2. 为指定 URL 路径应用 CORS 配置
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // 覆盖所有路径
+
+        // 3. 创建 CorsFilter 并注册
+        FilterRegistrationBean<CorsFilter> bean = new FilterRegistrationBean<>(new CorsFilter(source));
+
+        // 4. 设置过滤器优先级（确保在 Spring Security 过滤器之前）
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        return bean;
     }
 
     @Bean
