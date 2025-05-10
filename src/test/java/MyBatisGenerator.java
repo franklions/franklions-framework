@@ -20,7 +20,7 @@ public class MyBatisGenerator {
 
     public static void main(String[] args) {
         List<String> tables = new ArrayList<>();
-        tables.add("sys_dict_type");
+//        tables.add("sys_dict_type");
 //        tables.add("sys_dict_data");
 //        tables.add("sys_config");
 //        tables.add("sys_dept");
@@ -34,7 +34,7 @@ public class MyBatisGenerator {
 //        tables.add("sys_role");
 //        tables.add("sys_role_dept");
 //        tables.add("sys_role_menu");
-//        tables.add("sys_user");
+        tables.add("sys_user");
 //        tables.add("sys_user_post");
 //        tables.add("sys_user_role");
 
