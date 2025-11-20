@@ -64,10 +64,15 @@ public class AppConfig {
     public FilterRegistrationBean<CorsFilter> corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 允许发送凭证（如 Cookie）
-        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // 允许的源
-        config.setAllowedMethods(Collections.singletonList("*")); // 允许所有方法（GET/POST等）
-        config.setAllowedHeaders(Collections.singletonList("*")); // 允许所有请求头
-        config.setExposedHeaders(Collections.singletonList("*")); // 暴露所有响应头
+//        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000")); // 允许的源
+//        config.setAllowedMethods(Collections.singletonList("*")); // 允许所有方法（GET/POST等）
+//        config.setAllowedHeaders(Collections.singletonList("*")); // 允许所有请求头
+//        config.setExposedHeaders(Collections.singletonList("*")); // 暴露所有响应头
+        config.addAllowedOriginPattern("*");    // 允许所有源
+        config.addAllowedHeader("*");       // 允许所有请求头
+        config.addAllowedMethod("*");       // 允许所有方法
+        config.addExposedHeader("*");       // 暴露所有响应头
+
         config.setMaxAge(3600L); // 预检请求缓存时间（单位：秒）
 
         // 2. 为指定 URL 路径应用 CORS 配置
